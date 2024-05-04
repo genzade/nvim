@@ -11,7 +11,7 @@ vim.g.loaded_ruby_provider = 0
 -- No more shift. one less keystroke
 -- map({ 'n', 'v' }, ';', ':', { noremap = true })
 map({ 'n', 'v' }, ';', ':')
-map({ 'n', 'v' }, ';;', ';', { noremap = true })
+map({ 'n', 'v' }, ':', ';', { noremap = true })
 
 -- Remove highlight search
 map('n', '<Esc>', '<cmd>nohlsearch<CR>')
