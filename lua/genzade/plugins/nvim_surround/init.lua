@@ -4,7 +4,16 @@ local config = function()
     return
   end
 
-  nvim_surround.setup({})
+  nvim_surround.setup({
+    keymaps = { visual = 's' },
+    move_cursor = false,
+    highlight = { duration = 5000 },
+  })
 end
 
-return { 'kylechui/nvim-surround', version = '*', config = config }
+return {
+  'kylechui/nvim-surround',
+  event = 'VeryLazy',
+  version = '*',
+  config = config,
+}
