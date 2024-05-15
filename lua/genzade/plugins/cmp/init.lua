@@ -33,7 +33,7 @@ local config = function()
       ['<tab>'] = cmp.config.disable,
       ['<C-n>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
       ['<C-p>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
-      ['<C-d>'] = cmp.mapping.scroll_docs( -4),
+      ['<C-d>'] = cmp.mapping.scroll_docs(-4),
       ['<C-f>'] = cmp.mapping.scroll_docs(4),
       ['<C-e>'] = cmp.mapping.close(),
       ['<C-y>'] = cmp.mapping(
@@ -77,8 +77,8 @@ local config = function()
       ['<A-k>'] = cmp.mapping(function(fallback)
         if cmp.visible() then
           cmp.select_prev_item()
-        elseif luasnip.jumpable( -1) then
-          luasnip.jump( -1)
+        elseif luasnip.jumpable(-1) then
+          luasnip.jump(-1)
         else
           fallback()
         end
@@ -95,6 +95,15 @@ local config = function()
       { name = 'emoji',                   keyword_length = 3 },
       { name = 'rg',                      keyword_length = 3 },
       { name = 'nvim_lsp_signature_help', keyword_length = 3 },
+      {
+        name = 'spell',
+        option = {
+          function()
+            local ctx = require('cmp.config.context')
+            return (ctx.in_treesitter_capture('spell') or ctx.in_treesitter_capture('spell'))
+          end,
+        },
+      },
     },
     sorting = {
       priority_weight = 2,
@@ -106,22 +115,6 @@ local config = function()
         -- require('copilot_cmp.comparators').prioritize,
         -- require('copilot_cmp.comparators').score,
         cmp.config.compare.score,
-
-        -- copied from cmp-under, but I don't think I need the plugin for this.
-        -- I might add some more of my own.
-        -- function(entry1, entry2)
-        --   local _, entry1_under = entry1.completion_item.label:find('^_+')
-        --   local _, entry2_under = entry2.completion_item.label:find('^_+')
-
-        --   entry1_under = entry1_under or 0
-        --   entry2_under = entry2_under or 0
-
-        --   if entry1_under > entry2_under then
-        --     return false
-        --   elseif entry1_under < entry2_under then
-        --     return true
-        --   end
-        -- end,
 
         cmp.config.compare.recently_used,
         cmp.config.compare.locality,
@@ -149,6 +142,7 @@ local config = function()
           nvim_lua = '[API]',
           path = '[PATH]',
           buffer = '[BUF]',
+          spell = '[SPELL]',
         },
         mode = 'symbol_text',
         max_width = 50,
@@ -267,6 +261,7 @@ return {
     'lukas-reineke/cmp-rg',
     'saadparwaiz1/cmp_luasnip',
     'onsails/lspkind-nvim',
+    'f3fora/cmp-spell',
   },
   config = config,
 }
