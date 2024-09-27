@@ -9,8 +9,6 @@ local has_words_before = function()
 end
 
 local config = function()
-  require('luasnip/loaders/from_vscode').lazy_load()
-
   vim.g.completeopt = 'menu,menuone,noselect,noinsert'
 
   local cmp_status_ok, cmp = pcall(require, 'cmp')
@@ -97,6 +95,7 @@ local config = function()
       { name = 'nvim_lsp_signature_help', keyword_length = 3 },
       {
         name = 'spell',
+        keyword_length = 2,
         option = {
           function()
             local ctx = require('cmp.config.context')
