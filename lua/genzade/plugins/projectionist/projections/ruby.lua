@@ -1,4 +1,4 @@
-local sanitize_str = require('genzade.core.utils').sanitize_str
+local multiline_str = require('genzade.core.utils').sanitize_str
 
 M = {}
 
@@ -8,7 +8,7 @@ M.ruby_generic = {
     alternate = 'lib/{}.rb',
     type = 'spec',
     template = {
-      sanitize_str([[
+      multiline_str([[
         # frozen_string_literal: true
 
         require 'spec_helper'
@@ -31,7 +31,7 @@ M.ruby_on_rails = {
     alternate = 'app/adapters/{}.rb',
     type = 'spec',
     template = {
-      sanitize_str([[
+      multiline_str([[
         # frozen_string_literal: true
 
         require 'rails_helper'
@@ -53,7 +53,7 @@ M.ruby_on_rails = {
     alternate = 'app/helpers/{}.rb',
     type = 'spec',
     template = {
-      sanitize_str([[
+      multiline_str([[
         # frozen_string_literal: true
 
         require 'rails_helper'
@@ -81,7 +81,7 @@ M.ruby_on_rails = {
     alternate = 'app/models/{}.rb',
     type = 'spec',
     template = {
-      sanitize_str([[
+      multiline_str([[
         # frozen_string_literal: true
 
         require 'rails_helper'
@@ -117,7 +117,7 @@ M.ruby_on_rails = {
     alternate = { 'app/components/{}.rb', 'app/components/{}.html.erb' },
     type = 'component',
     template = {
-      sanitize_str([[
+      multiline_str([[
         # frozen_string_literal: true
 
         require 'rails_helper'
@@ -140,7 +140,7 @@ M.ruby_on_rails = {
     alternate = 'lib/{}.rb',
     type = 'spec',
     template = {
-      sanitize_str([[
+      multiline_str([[
       # frozen_string_literal: true
 
       require 'rails_helper'
@@ -160,7 +160,7 @@ M.ruby_on_rails = {
     alternate = 'lib/tasks/{}.rake',
     type = 'spec',
     template = {
-      sanitize_str([[
+      multiline_str([[
         # frozen_string_literal: true
 
         require 'rails_helper'
@@ -202,7 +202,7 @@ M.ruby_on_rails = {
     alternate = 'app/mailers/{}.rb',
     type = 'spec',
     template = {
-      sanitize_str([[
+      multiline_str([[
         # frozen_string_literal: true
 
         require 'rails_helper'
@@ -236,7 +236,7 @@ M.ruby_on_rails = {
     alternate = 'app/services/{}.rb',
     type = 'spec',
     template = {
-      sanitize_str([[
+      multiline_str([[
         # frozen_string_literal: true
 
         require 'rails_helper'
@@ -258,7 +258,7 @@ M.ruby_on_rails = {
     alternate = 'app/jobs/{}.rb',
     type = 'spec',
     template = {
-      sanitize_str([[
+      multiline_str([[
         # frozen_string_literal: true
 
         require 'rails_helper'
@@ -266,6 +266,31 @@ M.ruby_on_rails = {
         RSpec.describe {camelcase|capitalize|colons}, type: :job do
           it 'does something' do
             expect(true).to eq(false)
+          end
+        end]]),
+    },
+  },
+  ['app/sidekiq/*.rb'] = {
+    alternate = 'spec/sidekiq/{}_spec.rb',
+    type = 'source',
+  },
+  ['spec/sidekiq/*_spec.rb'] = {
+    alternate = 'app/sidekiq/{}.rb',
+    type = 'spec',
+    template = {
+      multiline_str([[
+        # frozen_string_literal: true
+
+        require 'rails_helper'
+
+        RSpec.describe {camelcase|capitalize|colons}, type: :job do
+          it "enqueues itself on default queue" do
+            arg = 123
+
+            expect { {camelcase|capitalize|colons}.perform_async(arg) }
+              .to enqueue_sidekiq_job({camelcase|capitalize|colons})
+              .with(arg)
+              .on("default")
           end
         end]]),
     },
@@ -278,7 +303,7 @@ M.ruby_on_rails = {
     alternate = 'app/channels/{}.rb',
     type = 'spec',
     template = {
-      sanitize_str([[
+      multiline_str([[
         # frozen_string_literal: true
 
         require 'rails_helper'
