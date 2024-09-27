@@ -38,27 +38,37 @@ map(
 -- 1gt   -   go to first tab
 -- 1gT   -   go to last tab
 
--- copy filename to clipboard
-map('n', 'cp', function()
-  local path = vim.fn.expand('%')
+local function copy_path(full)
+  full = full or false
+
+  local path
+
+  if not full then
+    path = vim.fn.expand('%')
+  else
+    path = vim.fn.expand('%:p')
+  end
+
   vim.fn.setreg('+', path)
   vim.notify('Copied "' .. path .. '" to the clipboard!')
-end, { desc = '[C]opy current file [P]ath to clipboard' })
+end
 
--- keep cursor position centred
-map('n', 'n', 'nzzzv')
-map('n', 'N', 'Nzzzv')
-map('n', 'J', 'mzJ`z')
+-- -- copy filename to clipboard
+map('n', 'cp', copy_path, { desc = '[C]opy file [P]ath to clipboard' })
+map('n', 'cP', function()
+  copy_path(true)
+end, { desc = '[C]opy full file [P]ath to clipboard' })
 
--- keep cursor position centred
-map('n', 'n', 'nzzzv')
-map('n', 'N', 'Nzzzv')
-map('n', 'J', 'mzJ`z')
-
--- keep cursor position centred
-map('n', 'n', 'nzzzv')
-map('n', 'N', 'Nzzzv')
-map('n', 'J', 'mzJ`z')
+-- close all buffers but current
+map('n', '<leader>bd', function()
+  -- vim.cmd('bd|e#')
+  local bufs = vim.api.nvim_list_bufs()
+  for _, buf in ipairs(bufs) do
+    if buf ~= vim.api.nvim_get_current_buf() then
+      vim.api.nvim_buf_delete(buf, { force = true })
+    end
+  end
+end, { desc = '[B]uffer [D]elete' })
 
 -- keep cursor position centred
 map('n', 'n', 'nzzzv')
