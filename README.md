@@ -13,7 +13,7 @@ local config = function()
   -- plugin specific config goes here
 end
 
-return { "author/my_plugin.nvim", config = config }
+return { "plugin_author/my_plugin.nvim", config = config }
 ```
 
 ```bash
