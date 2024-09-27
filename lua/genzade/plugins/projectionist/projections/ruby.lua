@@ -1,3 +1,5 @@
+local sanitize_str = require('genzade.core.utils').sanitize_str
+
 M = {}
 
 M.ruby_generic = {
@@ -6,15 +8,16 @@ M.ruby_generic = {
     alternate = 'lib/{}.rb',
     type = 'spec',
     template = {
-      '# frozen_string_literal: true',
-      '',
-      "require 'spec_helper'",
-      '',
-      'RSpec.describe {camelcase|capitalize|colons} do',
-      "  it 'does something' do",
-      '    expect(true).to eq(false)',
-      '  end',
-      'end',
+      sanitize_str([[
+        # frozen_string_literal: true
+
+        require 'spec_helper'
+
+        RSpec.describe {camelcase|capitalize|colons} do
+          it 'does something' do
+            expect(true).to eq(false)
+          end
+        end]]),
     },
   },
 }
@@ -28,15 +31,46 @@ M.ruby_on_rails = {
     alternate = 'app/adapters/{}.rb',
     type = 'spec',
     template = {
-      '# frozen_string_literal: true',
-      '',
-      "require 'rails_helper'",
-      '',
-      'RSpec.describe {camelcase|capitalize|colons} do',
-      "  describe '#METHOD' do",
-      '    it {open} is_expected.to be_true {close}',
-      '  end',
-      'end',
+      sanitize_str([[
+        # frozen_string_literal: true
+
+        require 'rails_helper'
+
+        RSpec.describe {camelcase|capitalize|colons}, type: :adapter do
+          describe '#METHOD' do
+            it 'does something helpful' do
+              expect(described_class.METHOD).to eq('expected value')
+            end
+          end
+        end]]),
+    },
+  },
+  ['app/helpers/*.rb'] = {
+    alternate = 'spec/helpers/{}_spec.rb',
+    type = 'source',
+  },
+  ['spec/helpers/*_spec.rb'] = {
+    alternate = 'app/helpers/{}.rb',
+    type = 'spec',
+    template = {
+      sanitize_str([[
+        # frozen_string_literal: true
+
+        require 'rails_helper'
+
+        RSpec.describe {camelcase|capitalize|colons}, type: :helper do
+          describe '#METHOD' do
+            it 'does something helpful' do
+              expected = <<~HTML
+                <div class="some-class
+                  some-other-class">
+                  <p>Some content</p>
+                </div>
+              HTML
+              expect(helper.METHOD).to eq(expected)
+            end
+          end
+        end]]),
     },
   },
   ['app/models/*.rb'] = {
@@ -47,20 +81,21 @@ M.ruby_on_rails = {
     alternate = 'app/models/{}.rb',
     type = 'spec',
     template = {
-      '# frozen_string_literal: true',
-      '',
-      "require 'rails_helper'",
-      '',
-      'RSpec.describe {camelcase|capitalize|colons}, type: :model do',
-      "  describe 'associations' do",
-      '    it {open} is_expected.to belong_to(:association) {close}',
-      '    it {open} is_expected.to have_many(:association) {close}',
-      '  end',
-      '',
-      "  describe 'validations' do",
-      '    it {open} is_expected.to validate_presence_of(:attribute) {close}',
-      '  end',
-      'end',
+      sanitize_str([[
+        # frozen_string_literal: true
+
+        require 'rails_helper'
+
+        RSpec.describe {camelcase|capitalize|colons}, type: :model do
+          describe 'associations' do
+            it {open} is_expected.to belong_to(:association) {close}
+            it {open} is_expected.to have_many(:association) {close}
+          end
+
+          describe 'validations' do
+            it {open} is_expected.to validate_presence_of(:attribute) {close}
+          end
+        end]]),
     },
   },
   ['app/views/*.html.erb'] = {
@@ -82,19 +117,18 @@ M.ruby_on_rails = {
     alternate = { 'app/components/{}.rb', 'app/components/{}.html.erb' },
     type = 'component',
     template = {
-      '# frozen_string_literal: true',
-      '',
-      "require 'rails_helper'",
-      '',
-      'RSpec.describe {camelcase|capitalize|colons}, type: :component do',
-      "  context 'when context' do",
-      "    it 'does something' do",
-      '      render_inline({camelcase|capitalize|colons}.new)',
-      '',
-      "      expect(page).to have_selector('body')",
-      '    end',
-      '  end',
-      'end',
+      sanitize_str([[
+        # frozen_string_literal: true
+
+        require 'rails_helper'
+
+        RSpec.describe {camelcase|capitalize|colons}, type: :component do
+          it 'renders the component' do
+            render_inline({camelcase|capitalize|colons}.new)
+
+            expect(page).to have_css('div')
+          end
+        end]]),
     },
   },
   ['spec/views/*.html.erb_spec.rb'] = {
@@ -106,16 +140,16 @@ M.ruby_on_rails = {
     alternate = 'lib/{}.rb',
     type = 'spec',
     template = {
-      '# frozen_string_literal: true',
-      '',
-      "require 'rails_helper'",
-      "require '{dirname}/{basename}'",
-      '',
-      'RSpec.describe {camelcase|capitalize|colons} do',
-      "  it 'does something' do",
-      '    expect(true).to eq(false)',
-      '  end',
-      'end',
+      sanitize_str([[
+      # frozen_string_literal: true
+
+      require 'rails_helper'
+
+      RSpec.describe {camelcase|capitalize|colons} do
+         it 'does something' do
+           expect(true).to eq(false)
+         end
+       end]]),
     },
   },
   ['lib/tasks/*.rake'] = {
@@ -126,37 +160,38 @@ M.ruby_on_rails = {
     alternate = 'lib/tasks/{}.rake',
     type = 'spec',
     template = {
-      '# frozen_string_literal: true',
-      '',
-      "require 'rails_helper'",
-      '',
-      '# loads all the rake tasks',
-      'Rails.application.load_tasks',
-      '',
-      'RSpec.describe Tasks::{camelcase|capitalize|colons}, type: :task do',
-      '  def rake_task',
-      "    Rake::Task['{dirname}:{basename}:run']",
-      '  end',
-      '',
-      '  after {open} rake_task.reenable {close}',
-      '',
-      '  before do',
-      '    :something',
-      '  end',
-      '',
-      "  it 'does something useful' do",
-      '    expect do',
-      '      rake_task.invoke',
-      '    end.to change {open} :some_record {close}',
-      '      .from(:this)',
-      '      .to(:that)',
-      '      .and(',
-      '        change {open} :other_record {close}',
-      '          .from(:this)',
-      '          .to(:that)',
-      '      )',
-      '  end',
-      'end',
+      sanitize_str([[
+        # frozen_string_literal: true
+
+        require 'rails_helper'
+
+        # loads all the rake tasks
+        Rails.application.load_tasks
+
+        RSpec.describe Tasks::{camelcase|capitalize|colons} type: :task do
+          def rake_task
+            Rake::Task['{dirname}:{basename}:run']
+          end
+
+          after {open} rake_task.reenable {close}
+
+          before do
+            :something
+          end
+
+          it does something useful do
+            expect do
+              rake_task.invoke
+            end.to change {open} :some_record {close}
+              .from(:this)
+              .to(:that)
+              .and(
+                change {open} :other_record {close}
+                  .from(:this)
+                  .to(:that)
+              )
+          end
+        end]]),
     },
   },
   ['app/mailers/*.rb'] = {
@@ -167,29 +202,30 @@ M.ruby_on_rails = {
     alternate = 'app/mailers/{}.rb',
     type = 'spec',
     template = {
-      '# frozen_string_literal: true',
-      '',
-      "require 'rails_helper'",
-      '',
-      'RSpec.describe {camelcase|capitalize|colons}, type: :mailer do',
-      "  describe '#mailer_method_name' do",
-      "    it 'sends an email with correct content', :aggregate_failures do",
-      '      mail = {camelcase|capitalize|colons}',
-      '        .with(key: :value)',
-      '        .mailer_method_name',
-      '',
-      "      expect(mail.to).to eq(['user@mail.com'])",
-      "      expect(mail.bcc).to eq(['other_user@mail.com'])",
-      "      expect(mail.subject).to eq('Subject line here')",
-      '      expect(mail.html_part.encoded).to include(',
-      "        'User Bruce Wayne has create to their account:',",
-      '      )',
-      '      expect(mail.text_part.encoded).to include(',
-      "        'User Bruce Wayne has create to their account:',",
-      '      )',
-      '    end',
-      '  end',
-      'end',
+      sanitize_str([[
+        # frozen_string_literal: true
+
+        require 'rails_helper'
+
+        RSpec.describe {camelcase|capitalize|colons} type: :mailer do
+          describe '#mailer_method_name' do
+            it 'sends an email with correct content' :aggregate_failures do
+              mail = {camelcase|capitalize|colons}
+                .with(key: :value)
+                .mailer_method_name
+
+              expect(mail.to).to eq(['user@mail.com'])
+              expect(mail.bcc).to eq(['other_user@mail.com'])
+              expect(mail.subject).to eq('Subject line here')
+              expect(mail.html_part.encoded).to include(
+                'User Bruce Wayne has create to their account:'
+              )
+              expect(mail.text_part.encoded).to include(
+                'User Bruce Wayne has create to their account:'
+              )
+            end
+          end
+        end]]),
     },
   },
   ['app/services/*.rb'] = {
@@ -200,15 +236,18 @@ M.ruby_on_rails = {
     alternate = 'app/services/{}.rb',
     type = 'spec',
     template = {
-      '# frozen_string_literal: true',
-      '',
-      "require 'rails_helper'",
-      '',
-      'RSpec.describe {camelcase|capitalize|colons} do',
-      "  it 'does something' do",
-      '    expect(true).to eq(false)',
-      '  end',
-      'end',
+      sanitize_str([[
+        # frozen_string_literal: true
+
+        require 'rails_helper'
+
+        RSpec.describe {camelcase|capitalize|colons}, type: :service do
+          describe '#METHOD' do
+            it 'does something helpful' do
+              expect(described_class.METHOD).to eq('expected value')
+            end
+          end
+        end]]),
     },
   },
   ['app/jobs/*.rb'] = {
@@ -219,15 +258,16 @@ M.ruby_on_rails = {
     alternate = 'app/jobs/{}.rb',
     type = 'spec',
     template = {
-      '# frozen_string_literal: true',
-      '',
-      "require 'rails_helper'",
-      '',
-      'RSpec.describe {camelcase|capitalize|colons}, type: :job do',
-      "  it 'does something' do",
-      '    expect(true).to eq(false)',
-      '  end',
-      'end',
+      sanitize_str([[
+        # frozen_string_literal: true
+
+        require 'rails_helper'
+
+        RSpec.describe {camelcase|capitalize|colons}, type: :job do
+          it 'does something' do
+            expect(true).to eq(false)
+          end
+        end]]),
     },
   },
   ['app/channels/*.rb'] = {
@@ -238,14 +278,16 @@ M.ruby_on_rails = {
     alternate = 'app/channels/{}.rb',
     type = 'spec',
     template = {
-      '# frozen_string_literal: true',
-      '',
-      "require 'rails_helper'",
-      '',
-      'RSpec.describe {camelcase|capitalize|colons}, type: :channel do',
-      "  it 'does something' do",
-      '    expect(true).to eq(false)',
-      '  end',
+      sanitize_str([[
+        # frozen_string_literal: true
+
+        require 'rails_helper'
+
+        RSpec.describe {camelcase|capitalize|colons}, type: :channel do
+          it 'does something' do
+            expect(true).to eq(false)
+          end
+        end]]),
     },
   },
   ['rubocop/cop/*.rb'] = {
