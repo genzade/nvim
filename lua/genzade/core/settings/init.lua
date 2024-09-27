@@ -49,6 +49,11 @@ o.hlsearch = true
 -- Preview substitutions live, as you type!
 o.inccommand = 'split'
 
+-- disable provider warnings
+g.loaded_python3_provider = 0
+g.loaded_node_provider = 0
+g.loaded_perl_provider = 0
+
 -- https://stackoverflow.com/questions/53327486/whats-happening-here-with-vim-inside-tmux-pane
 -- this is still not resolved for me
 if vim.env.TMUX then
