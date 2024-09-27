@@ -89,7 +89,7 @@ local config = function()
       { name = 'nvim_lua',                keyword_length = 3 },
       { name = 'luasnip',                 keyword_length = 2 },
       -- { name = 'copilot', keyword_length = 0 },
-      { name = 'nvim_lsp',                keyword_length = 3 },
+      { name = 'nvim_lsp',                keyword_length = 2 },
       { name = 'path',                    keyword_length = 3 },
       { name = 'buffer',                  keyword_length = 3 },
       { name = 'emoji',                   keyword_length = 3 },
@@ -100,7 +100,7 @@ local config = function()
         option = {
           function()
             local ctx = require('cmp.config.context')
-            return (ctx.in_treesitter_capture('spell') or ctx.in_treesitter_capture('spell'))
+            return ctx.in_treesitter_capture('spell')
           end,
         },
       },
