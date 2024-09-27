@@ -10,7 +10,7 @@ plugin structure example `nvim/lua/genzade/plugins/my_plugin/init.lua`;
 
 ```lua
 local config = function()
-  -- cofig goes here
+  -- config goes here
 end
 
 return { "author/my_plugin.nvim", config = config }
@@ -18,9 +18,9 @@ return { "author/my_plugin.nvim", config = config }
 
 ```bash
 nvim
-├── init.lua                   # this is the entry point
+├── init.lua                       # this is the entry point
 └── lua
-    └── genzade                # my username namespace (you should use your own)
+    └── genzade                    # my username namespace (you should use your own)
         ├── core
         │   ├── autocmds
         │   │   └── init.lua       # place your autocommands here
