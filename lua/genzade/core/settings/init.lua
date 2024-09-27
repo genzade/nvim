@@ -1,5 +1,6 @@
 -- Settings
 local o = vim.o
+local opt = vim.opt
 local g = vim.g
 local bo = vim.bo
 local wo = vim.wo
@@ -53,6 +54,9 @@ o.inccommand = 'split'
 g.loaded_python3_provider = 0
 g.loaded_node_provider = 0
 g.loaded_perl_provider = 0
+
+opt.spell = true
+opt.spelllang = { 'en_gb' }
 
 -- https://stackoverflow.com/questions/53327486/whats-happening-here-with-vim-inside-tmux-pane
 -- this is still not resolved for me
