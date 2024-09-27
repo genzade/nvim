@@ -10,7 +10,7 @@ plugin structure example `nvim/lua/genzade/plugins/my_plugin/init.lua`;
 
 ```lua
 local config = function()
-  -- config goes here
+  -- plugin specific config goes here
 end
 
 return { "author/my_plugin.nvim", config = config }
