@@ -9,21 +9,27 @@ vim.g.mapleader = ' '
 vim.g.loaded_ruby_provider = 0
 
 -- No more shift. one less keystroke
-map('n', ';', ':', { noremap = true })
-map('v', ';', ':', { noremap = true })
+-- map({ 'n', 'v' }, ';', ':', { noremap = true })
+map({ 'n', 'v' }, ';', ':')
+map({ 'n', 'v' }, ';;', ';', { noremap = true })
 
 -- Remove highlight search
 map('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- Tab navigation
-map('n', 'tn', vim.cmd.tabnext)
-map('n', 'tp', vim.cmd.tabprevious)
-map('n', 'tl', vim.cmd.tablast)
-map('n', 'tf', vim.cmd.tabfirst)
-map('n', 'tx', vim.cmd.tabclose)
-map('n', 'to', vim.cmd.tabonly)
-map('n', 'tN', ':tabnew ', { noremap = true, silent = false })
-map('n', 'T', ':tabnew %<CR>', { noremap = true, silent = true })
+map('n', 'tn', vim.cmd.tabnext, { desc = 'Go to [N]ext [T]ab' })
+map('n', 'tp', vim.cmd.tabprevious, { desc = 'Go to [P]revious [T]ab' })
+map('n', 'tl', vim.cmd.tablast, { desc = 'Go to [L]ast [T]ab' })
+map('n', 'tf', vim.cmd.tabfirst, { desc = 'Go to [F]irst [T]ab' })
+map('n', 'tx', vim.cmd.tabclose, { desc = '[C]lose [T]ab' })
+map('n', 'to', vim.cmd.tabonly, { desc = 'Close all [O]ther [T]abs' })
+map('n', 'tN', ':tabnew ', { noremap = true, silent = false, desc = '[N]ew [T]ab' })
+map(
+  'n',
+  'T',
+  ':tabnew %<CR>',
+  { noremap = true, silent = true, desc = 'Open current file in [N]ew [T]ab' }
+)
 
 -- something to consider
 -- gt    -   go to next tab
@@ -37,7 +43,22 @@ map('n', 'cp', function()
   local path = vim.fn.expand('%')
   vim.fn.setreg('+', path)
   vim.notify('Copied "' .. path .. '" to the clipboard!')
-end)
+end, { desc = '[C]opy current file [P]ath to clipboard' })
+
+-- keep cursor position centred
+map('n', 'n', 'nzzzv')
+map('n', 'N', 'Nzzzv')
+map('n', 'J', 'mzJ`z')
+
+-- keep cursor position centred
+map('n', 'n', 'nzzzv')
+map('n', 'N', 'Nzzzv')
+map('n', 'J', 'mzJ`z')
+
+-- keep cursor position centred
+map('n', 'n', 'nzzzv')
+map('n', 'N', 'Nzzzv')
+map('n', 'J', 'mzJ`z')
 
 -- keep cursor position centred
 map('n', 'n', 'nzzzv')
