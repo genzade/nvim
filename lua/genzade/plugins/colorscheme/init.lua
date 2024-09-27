@@ -11,7 +11,6 @@ local config = function()
 
   if vimrc_bg_file:exists() then
     nvim_cmd({ cmd = 'source', args = { vimrc_bg_file.filename } }, {})
-    -- vim.cmd([[source ]] .. vimrc_bg_file.filename)
 
     fwatch.watch(vimrc_bg_file.filename, {
       on_event = vim.schedule_wrap(function(_, events, unwatch)
@@ -19,11 +18,6 @@ local config = function()
           print('vimrc_background changed, reloading colorscheme')
 
           nvim_cmd({ cmd = 'source', args = { vimrc_bg_file.filename } }, {})
-          -- need to reload lazy
-          --
-          -- vim.cmd([[source ]] .. vimrc_bg_file.filename)
-          -- vim.cmd([[PackerCompile]])
-          nvim_cmd({ cmd = 'PackerCompile' }, {})
         end
 
         unwatch()
