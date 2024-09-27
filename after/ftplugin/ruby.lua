@@ -3,10 +3,9 @@ vim.cmd.compiler('ruby')
 local opt = vim.opt_local
 
 -- Include more chars when deleting words
-opt.iskeyword:append("?")
-opt.iskeyword:append("!")
-opt.iskeyword:append("$")
-opt.iskeyword:append(":")
+opt.iskeyword:append('?')
+opt.iskeyword:append('!')
+opt.iskeyword:append('$')
 
 local function start_of_line(line)
   local stripped = string.gsub(line, '^%s*(.-)$', '%1')
