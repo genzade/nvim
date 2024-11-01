@@ -17,7 +17,7 @@ local config = function()
         name = '+Notify',
         c = {
           function()
-            notify.dismiss()
+            notify.dismiss({ silent = true, pending = true })
           end,
           '[C]lose Notification',
         },
