@@ -1,10 +1,51 @@
+-- local function augroup(name)
+--   return vim.api.nvim_create_augroup('genzade_' .. name, { clear = true })
+-- end
+
+local autocmd = vim.api.nvim_create_autocmd
+local augroup = require('genzade.core.utils').create_augroup
+
 -- Highlight when yanking (copying) text
---  Try it with `yap` in normal mode
---  See `:help vim.highlight.on_yank()`
-vim.api.nvim_create_autocmd('TextYankPost', {
+autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',
-  group = vim.api.nvim_create_augroup('highlight-text-yank-post', { clear = true }),
+  group = augroup('highlight_yank'),
   callback = function()
     vim.highlight.on_yank()
+  end,
+})
+
+-- Run resize methods when window size is changed
+autocmd('VimResized', {
+  desc = 'Run resize methods when window size is changes',
+  group = augroup('resize_window'),
+  callback = function()
+    vim.cmd.wincmd('=')
+  end,
+})
+
+-- go to last loc when opening a buffer
+autocmd('BufReadPost', {
+  desc = 'Go to last location when opening a buffer',
+  group = augroup('last_location'),
+  callback = function()
+    local mark = vim.api.nvim_buf_get_mark(0, '"')
+    local lcount = vim.api.nvim_buf_line_count(0)
+    if mark[1] > 0 and mark[1] <= lcount then
+      pcall(vim.api.nvim_win_set_cursor, 0, mark)
+    end
+  end,
+})
+
+-- close some filetypes with `q`, add more filetypes as needed
+autocmd('FileType', {
+  desc = 'Close some filetypes with `q`',
+  group = augroup('quick_close'),
+  pattern = {
+    'checkhealth',
+    'notify',
+  },
+  callback = function(event)
+    vim.bo[event.buf].buflisted = false
+    vim.keymap.set('n', 'q', '<CMD>close<CR>', { buffer = event.buf, silent = true })
   end,
 })

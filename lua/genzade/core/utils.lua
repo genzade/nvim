@@ -1,5 +1,9 @@
 M = {}
 
+M.create_augroup = function(name)
+  return vim.api.nvim_create_augroup('genzade_' .. name, { clear = true })
+end
+
 M.sanitize_str = function(str)
   str = str:gsub('^%s*\n', '')
 
