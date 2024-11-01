@@ -3,8 +3,8 @@ local multiline_str = require('genzade.core.utils').sanitize_str
 M = {}
 
 M.ruby_generic = {
-  ['lib/*.rb'] = { alternate = 'spec/{}_spec.rb', type = 'source' },
-  ['spec/*_spec.rb'] = {
+  ['lib/*.rb'] = { alternate = 'spec/lib/{}_spec.rb', type = 'source' },
+  ['spec/lib/*_spec.rb'] = {
     alternate = 'lib/{}.rb',
     type = 'spec',
     template = {
@@ -94,6 +94,56 @@ M.ruby_on_rails = {
 
           describe 'validations' do
             it {open} is_expected.to validate_presence_of(:attribute) {close}
+          end
+        end]]),
+    },
+  },
+  ['app/forms/*.rb'] = {
+    alternate = 'spec/forms/{}_spec.rb',
+    type = 'source',
+  },
+  ['spec/forms/*_spec.rb'] = {
+    alternate = 'app/forms/{}.rb',
+    type = 'spec',
+    template = {
+      multiline_str([[
+        # frozen_string_literal: true
+
+        require 'rails_helper'
+
+        RSpec.describe {camelcase|capitalize|colons}, type: :form do
+          describe 'validations' do
+            it {open} is_expected.to validate_presence_of(:attribute) {close}
+          end
+
+          describe "#save" do
+            context "when the form is valid" do
+              it "creates a RECORD, returns true" do
+                form = {camelcase|capitalize|colons}.new(
+                  foo: "john@doe.com",
+                  bar: "123456",
+                )
+
+                expect do
+                  expect(form.save).to be(true)
+                  expect(form.errors).to be_empty
+                end.to change(RECORD, :count).from(0).to(1)
+              end
+            end
+
+            context "when the form is invalid" do
+              it "does not create RECORD returns false" do
+                form = {camelcase|capitalize|colons}.new(
+                  foo: "",
+                  bar: "",
+                )
+
+                expect do
+                  expect(form.save).to be(false)
+                  expect(form.errors).not_to be_empty
+                end.not_to change(RECORD, :count)
+              end
+            end
           end
         end]]),
     },
