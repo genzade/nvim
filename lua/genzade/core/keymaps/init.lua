@@ -74,3 +74,24 @@ end, { desc = '[B]uffer [D]elete' })
 map('n', 'n', 'nzzzv')
 map('n', 'N', 'Nzzzv')
 map('n', 'J', 'mzJ`z')
+
+-- toggle zoom
+
+vim.t.toggle_zoom = false
+
+-- TODO: use this function to check if window is zoomed when navigating between windows
+-- local function is_zoomed()
+--   return vim.t.toggle_zoom
+-- end
+
+local function toggle_zoom()
+  if vim.t.toggle_zoom then
+    vim.cmd.wincmd('=')
+  else
+    vim.cmd.wincmd('_')
+    vim.cmd.wincmd('|')
+  end
+  vim.t.toggle_zoom = not vim.t.toggle_zoom
+end
+
+map('n', '<leader>z', toggle_zoom, { desc = 'Toggle [Z]oom window splits' })
