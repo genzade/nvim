@@ -18,7 +18,7 @@ M.servers = {
   'tailwindcss',
   'taplo',
   'terraformls',
-  'tsserver',
+  'ts_ls',
   'yamlls',
 }
 
