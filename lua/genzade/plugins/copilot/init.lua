@@ -34,8 +34,8 @@ local config = function()
     },
   })
 
-  local which_key_ok, which_key = pcall(require, 'which-key')
-  if not which_key_ok then
+  local wk_ok, wk = pcall(require, 'which-key')
+  if not wk_ok then
     return
   end
 
@@ -50,7 +50,7 @@ local config = function()
   end
 
   -- TODO: fix this. mappings are not working properly
-  which_key.add({
+  wk.add({
     {
       mode = { 'n' },
       { '<Leader>c', group = 'Copilot' },

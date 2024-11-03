@@ -6,12 +6,12 @@ local config = function()
 
   hop.setup({ keys = 'etovxqpdygfblzhckisuran' })
 
-  local which_key_ok, which_key = pcall(require, 'which-key')
-  if not which_key_ok then
+  local wk_ok, wk = pcall(require, 'which-key')
+  if not wk_ok then
     return
   end
 
-  which_key.add({
+  wk.add({
     {
       mode = { 'n' },
       { '<Leader>s', group = 'Hop' },

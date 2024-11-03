@@ -12,12 +12,12 @@ local config = function()
     ['package.json&jest.config.js'] = javascript_projections.javascript_generic,
   }
 
-  local which_key_ok, which_key = pcall(require, 'which-key')
-  if not which_key_ok then
+  local wk_ok, wk = pcall(require, 'which-key')
+  if not wk_ok then
     return
   end
 
-  which_key.add({
+  wk.add({
     { '<Leader>a', group = 'Projectionist' },
     { '<Leader>aa', '<CMD>A<CR>', desc = 'Open [A]lternate file' },
     { '<Leader>as', '<CMD>AS<CR>', desc = 'Open alternate file ([S]plit hor)' },

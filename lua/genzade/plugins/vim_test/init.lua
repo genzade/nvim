@@ -29,12 +29,12 @@ local config = function()
   -- vim.g['test#strategy'] = 'neovim'
   -- vim.g['test#preserve_screen'] = 1
 
-  local which_key_ok, which_key = pcall(require, 'which-key')
-  if not which_key_ok then
+  local wk_ok, wk = pcall(require, 'which-key')
+  if not wk_ok then
     return
   end
 
-  which_key.add({
+  wk.add({
     {
       mode = { 'n' },
       { '<Leader>t', group = 'TestRunner' },

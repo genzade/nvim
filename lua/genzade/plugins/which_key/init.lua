@@ -1,10 +1,10 @@
 local config = function()
-  local which_key_ok, which_key = pcall(require, 'which-key')
-  if not which_key_ok then
+  local wk_ok, wk = pcall(require, 'which-key')
+  if not wk_ok then
     return
   end
 
-  which_key.setup()
+  wk.setup()
 end
 
 return { 'folke/which-key.nvim', config = config }

@@ -4,8 +4,8 @@ local config = function()
     return
   end
 
-  local which_key_ok, which_key = pcall(require, 'which-key')
-  if not which_key_ok then
+  local wk_ok, wk = pcall(require, 'which-key')
+  if not wk_ok then
     return
   end
 
@@ -13,7 +13,7 @@ local config = function()
 
   -- TODO: not working since upgrade to 0.10.0, related to
   -- https://github.com/someone-stole-my-name/yaml-companion.nvim/issues/52
-  which_key.add({
+  wk.add({
     {
       mode = { 'n' },
       {
