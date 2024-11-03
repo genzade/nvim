@@ -35,22 +35,18 @@ local config = function()
     },
   })
 
-  which_key.register({
-    ['<Leader>'] = {
-      f = {
-        name = '+Telescope',
-        N = {
-          function()
-            telescope.extensions.noice.noice({
-              prompt_title = 'Noice Messages',
-              prompt_prefix = '🔊 ',
-            })
-          end,
-          'Filter [N]oice messages',
-        },
-      },
+  which_key.add({
+    {
+      '<Leader>fN',
+      function()
+        telescope.extensions.noice.noice({
+          prompt_title = 'Noice Messages',
+          prompt_prefix = '🔊 ',
+        })
+      end,
+      desc = 'Filter [N]oice messages',
     },
-  }, { mode = 'n' })
+  })
 end
 
 return {

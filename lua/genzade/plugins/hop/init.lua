@@ -11,86 +11,32 @@ local config = function()
     return
   end
 
-  which_key.register({
-    ['<Leader>'] = {
-      s = {
-        name = '+Hop',
-        l = { '<CMD>HopWordCurrentLine<CR>', 'Hop [L]ine' },
-        L = { '<CMD>HopAnywhereCurrentLine<CR>', 'Hop anywhere [L]ine' },
-        w = { '<CMD>HopWord<CR>', 'Hop [W]indow' },
-        W = { '<CMD>HopAnywhere<CR>', 'Hop anywhere [W]indow' },
-      },
+  which_key.add({
+    {
+      mode = { 'n' },
+      { '<Leader>s', group = 'Hop' },
+      { '<Leader>sL', '<CMD>HopAnywhereCurrentLine<CR>', desc = 'Hop anywhere [L]ine' },
+      { '<Leader>sW', '<CMD>HopAnywhere<CR>', desc = 'Hop anywhere [W]indow' },
+      { '<Leader>sl', '<CMD>HopWordCurrentLine<CR>', desc = 'Hop [L]ine' },
+      { '<Leader>sw', '<CMD>HopWord<CR>', desc = 'Hop [W]indow' },
     },
-  }, { mode = 'n' })
-
-  which_key.register({
-    ['<Leader>'] = {
-      s = {
-        name = '+Hop',
-        l = { '<CMD>HopWordCurrentLine<CR>', 'Hop [L]ine' },
-        L = { '<CMD>HopAnywhereCurrentLine<CR>', 'Hop anywhere [L]ine' },
-        w = { '<CMD>HopWord<CR>', 'Hop [W]indow' },
-        W = { '<CMD>HopAnywhere<CR>', 'Hop anywhere [W]indow' },
-      },
+    {
+      mode = { 'v' },
+      { '<Leader>s', group = 'Hop' },
+      { '<Leader>sL', '<CMD>HopAnywhereCurrentLine<CR>', desc = 'Hop anywhere [L]ine' },
+      { '<Leader>sW', '<CMD>HopAnywhere<CR>', desc = 'Hop anywhere [W]indow' },
+      { '<Leader>sl', '<CMD>HopWordCurrentLine<CR>', desc = 'Hop [L]ine' },
+      { '<Leader>sw', '<CMD>HopWord<CR>', desc = 'Hop [W]indow' },
     },
-  }, { mode = 'v' })
-
-  which_key.register({
-    ['<Leader>'] = {
-      s = {
-        name = '+Hop',
-        l = { '<CMD>HopWordCurrentLine<CR>', 'Hop [L]ine' },
-        L = { '<CMD>HopAnywhereCurrentLine<CR>', 'Hop anywhere [L]ine' },
-        w = { '<CMD>HopWord<CR>', 'Hop [W]indow' },
-        W = { '<CMD>HopAnywhere<CR>', 'Hop anywhere [W]indow' },
-      },
+    {
+      mode = { 'o' },
+      { '<Leader>s', group = 'Hop' },
+      { '<Leader>sL', '<CMD>HopAnywhereCurrentLine<CR>', desc = 'Hop anywhere [L]ine' },
+      { '<Leader>sW', '<CMD>HopAnywhere<CR>', desc = 'Hop anywhere [W]indow' },
+      { '<Leader>sl', '<CMD>HopWordCurrentLine<CR>', desc = 'Hop [L]ine' },
+      { '<Leader>sw', '<CMD>HopWord<CR>', desc = 'Hop [W]indow' },
     },
-  }, { mode = 'o' })
-
-  -- uncomment to setup more advanced features
-  -- local directions = require("hop.hint").HintDirection
-  -- vim.keymap.set(
-  --   "", "f", function()
-  --     hop.hint_char1(
-  --       {
-  --         direction = directions.AFTER_CURSOR,
-  --         current_line_only = true,
-  --       }
-  --     )
-  --   end, { remap = true }
-  -- )
-  -- vim.keymap.set(
-  --   "", "F", function()
-  --     hop.hint_char1(
-  --       {
-  --         direction = directions.BEFORE_CURSOR,
-  --         current_line_only = true,
-  --       }
-  --     )
-  --   end, { remap = true }
-  -- )
-  -- vim.keymap.set(
-  --   "", "t", function()
-  --     hop.hint_char1(
-  --       {
-  --         direction = directions.AFTER_CURSOR,
-  --         current_line_only = true,
-  --         hint_offset = -1,
-  --       }
-  --     )
-  --   end, { remap = true }
-  -- )
-  -- vim.keymap.set(
-  --   "", "T", function()
-  --     hop.hint_char1(
-  --       {
-  --         direction = directions.BEFORE_CURSOR,
-  --         current_line_only = true,
-  --         hint_offset = 1,
-  --       }
-  --     )
-  --   end, { remap = true }
-  -- )
+  })
 end
 
 -- TODO: replace with flash.nvim

@@ -4,11 +4,14 @@ local config = function()
     return
   end
 
-  which_key.register({
-    ['<A-x>'] = { '<CMD>BufferClose<CR>', 'Close the buffer' },
-    ['<S-TAB>'] = { '<CMD>BufferNext<CR>', 'Go to next buffer' },
-    ['<C-TAB>'] = { '<CMD>BufferPrevious<CR>', 'Go to previous buffer' },
-  }, { mode = 'n' })
+  which_key.add({
+    {
+      mode = { 'n' },
+      { '<A-x>', '<CMD>BufferClose<CR>', desc = 'Close the buffer' },
+      { '<C-TAB>', '<CMD>BufferPrevious<CR>', desc = 'Go to previous buffer' },
+      { '<S-TAB>', '<CMD>BufferNext<CR>', desc = 'Go to next buffer' },
+    },
+  })
 
   local ok, bufferline_api = pcall(require, 'bufferline.api')
   if not ok then

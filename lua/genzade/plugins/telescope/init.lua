@@ -44,85 +44,79 @@ local config = function()
     return
   end
 
-  which_key.register({
-    ['<Leader>'] = {
-      f = {
-        name = '+Telescope',
-        B = { tbuiltin.buffers, 'Find opened [B]uffers' },
-        b = {
-          function()
-            local ok, theme = pcall(require, 'telescope.themes')
-            if not ok then
-              return
+  which_key.add({
+    {
+      mode = { 'n' },
+      { '<Leader>f', group = 'Telescope' },
+      { '<Leader>fB', tbuiltin.buffers, desc = 'Find opened [B]uffers' },
+      {
+        '<Leader>fb',
+        function()
+          local ok, theme = pcall(require, 'telescope.themes')
+          if not ok then
+            return
+          end
+
+          tbuiltin.current_buffer_fuzzy_find(theme.get_ivy())
+        end,
+        desc = 'Search current [B]uffer',
+      },
+      { '<Leader>fC', tbuiltin.command_history, desc = 'Search [C]ommand history' },
+      { '<Leader>fG', tbuiltin.git_commits, desc = 'Search [G]it commits' },
+      { '<Leader>fL', tbuiltin.resume, desc = 'Resume [L]ast search' },
+      { '<Leader>fc', tbuiltin.commands, desc = 'Search available [C]ommands' },
+      { '<Leader>ff', tbuiltin.find_files, desc = 'Find [F]ile' },
+      { '<Leader>fg', tbuiltin.git_files, desc = 'Find [G]it files' },
+      { '<Leader>fh', tbuiltin.help_tags, desc = 'Search [H]elp docs' },
+      { '<Leader>fl', tbuiltin.live_grep, desc = '[L]ive search string' },
+      { '<Leader>fm', tbuiltin.marks, desc = 'Search [M]arks' },
+      {
+        '<Leader>fn',
+        function()
+          telescope.extensions.notify.notify()
+        end,
+        desc = 'Search [N]otification',
+      },
+      {
+        '<Leader>fp',
+        function()
+          telescope.extensions.neoclip.default()
+        end,
+        desc = 'Search yank/[P]aste registers',
+      },
+      { '<Leader>fr', tbuiltin.registers, desc = 'Search [R]egisters' },
+      { '<Leader>fs', tbuiltin.grep_string, desc = '[S]earch word under cursor' },
+    },
+    {
+      mode = { 'x' },
+      {
+        '<Leader>fs',
+        function()
+          local visual_selection = function()
+            -- Get visually selected text
+
+            -- TODO: make this work with new nvim_cmd api
+            vim.cmd('noautocmd normal! "vy"')
+
+            local text = vim.fn.getreg('v')
+
+            vim.fn.setreg('v', {})
+
+            text = string.gsub(text, '\n', '')
+
+            if string.len(text) == 0 then
+              text = nil
             end
 
-            tbuiltin.current_buffer_fuzzy_find(theme.get_ivy())
-          end,
-          'Search current [B]uffer',
-        },
-        C = { tbuiltin.command_history, 'Search [C]ommand history' },
-        c = { tbuiltin.commands, 'Search available [C]ommands' },
-        f = { tbuiltin.find_files, 'Find [F]ile' },
-        g = { tbuiltin.git_files, 'Find [G]it files' },
-        G = { tbuiltin.git_commits, 'Search [G]it commits' },
-        h = { tbuiltin.help_tags, 'Search [H]elp docs' },
-        l = { tbuiltin.live_grep, '[L]ive search string' },
-        L = { tbuiltin.resume, 'Resume [L]ast search' },
-        r = { tbuiltin.registers, 'Search [R]egisters' },
-        R = { tbuiltin.resume, '[R]esume previous search' },
-        s = { tbuiltin.grep_string, '[S]earch word under cursor' },
-        p = {
-          function()
-            telescope.extensions.neoclip.default()
-          end,
-          'Search yank/[P]aste registers',
-        },
-        m = { tbuiltin.marks, 'Search [M]arks' }, -- not working
-        n = {
-          function()
-            telescope.extensions.notify.notify()
-          end,
-          'Search [N]otification',
-        },
+            return text
+          end
+
+          tbuiltin.grep_string({ search = visual_selection() })
+        end,
+        desc = 'Find visually [S]elected word/s',
       },
     },
-  }, { mode = 'n' })
-
-  which_key.register({
-    ['<Leader>'] = {
-      f = {
-        name = '+Telescope (x)',
-        s = {
-          function()
-            local visual_selection = function()
-              -- Get visually selected text
-
-              -- TODO: make this work with new nvim_cmd api
-              vim.cmd('noautocmd normal! "vy"')
-              -- vim.api.nvim_cmd(
-              --   { cmd = "noau normal!", args = { "\"vy\"" } }, {}
-              -- )
-
-              local text = vim.fn.getreg('v')
-
-              vim.fn.setreg('v', {})
-
-              text = string.gsub(text, '\n', '')
-
-              if string.len(text) == 0 then
-                text = nil
-              end
-
-              return text
-            end
-
-            tbuiltin.grep_string({ search = visual_selection() })
-          end,
-          'Find visually [S]elected word/s',
-        },
-      },
-    },
-  }, { mode = 'x' })
+  })
 end
 
 return {

@@ -14,25 +14,18 @@ if not which_key_ok then
   return
 end
 
-which_key.register({
-  ['<Leader>'] = {
-    m = {
-      name = '+Markdown',
-      p = {
-        function()
-          vim.cmd.MarkdownPreview()
-        end,
-        'Open [M]arkdown[P]review',
-      },
+which_key.add({
+  {
+    mode = { 'n' },
+    { '<Leader>m', buffer = vim.api.nvim_get_current_buf(), group = 'Markdown', remap = false },
+    {
+      '<Leader>mp',
+      function()
+        vim.cmd.MarkdownPreview()
+      end,
+      buffer = vim.api.nvim_get_current_buf(),
+      desc = 'Open [M]arkdown[P]review',
+      remap = false,
     },
   },
-}, {
-  buffer = vim.api.nvim_get_current_buf(),
-  mode = 'n',
-  noremap = true,
-  silent = true,
 })
-
--- vim.keymap.set('n', '<Leader>mp', function()
---   vim.cmd.MarkdownPreview()
--- end, { noremap = true, buffer = true, desc = 'Open [M]arkdown[P]review' })

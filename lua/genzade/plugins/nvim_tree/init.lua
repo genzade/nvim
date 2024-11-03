@@ -35,12 +35,10 @@ local config = function()
     return
   end
 
-  which_key.register({
-    ['<Leader>'] = {
-      name = 'NvimTree',
-      e = { '<CMD>NvimTreeFindFileToggle<CR>', 'NvimTre[E] toggle' },
-    },
-  }, { mode = 'n' })
+  which_key.add({
+    { '<Leader>', group = 'NvimTree' },
+    { '<Leader>e', '<CMD>NvimTreeFindFileToggle<CR>', desc = 'NvimTre[E] toggle' },
+  })
 
   local defaults = require('genzade.plugins.nvim_tree.defaults')
 

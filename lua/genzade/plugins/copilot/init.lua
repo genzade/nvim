@@ -49,48 +49,38 @@ local config = function()
     return
   end
 
-  which_key.register({
-    ['<Leader>'] = {
-      c = {
-        name = '+Copilot',
-        p = {
-          function()
-            copilot_panel.open({ position = 'bottom', ratio = 0.4 })
-          end,
-          'Open [P]anel',
-        },
-        s = {
-          function()
-            copilot_suggestion.toggle_auto_trigger()
-          end,
-          'Toggle [S]uggestion trigger',
-        },
+  -- TODO: fix this. mappings are not working properly
+  which_key.add({
+    {
+      mode = { 'n' },
+      { '<Leader>c', group = 'Copilot' },
+      {
+        '<Leader>cp',
+        function()
+          copilot_panel.open({ position = 'bottom', ratio = 0.4 })
+        end,
+        'Open [P]anel',
+      },
+      {
+        '<Leader>cs',
+        function()
+          copilot_suggestion.toggle_auto_trigger()
+        end,
+        'Toggle [S]uggestion trigger',
       },
     },
-  }, { mode = 'n' })
+    {
 
-  which_key.register({
-    ['<C-s>'] = {
-      function()
-        copilot_suggestion.toggle_auto_trigger()
-      end,
-      'Toggle [S]uggestion trigger',
+      mode = { 'i' },
+      {
+        '<C-s>',
+        function()
+          copilot_suggestion.toggle_auto_trigger()
+        end,
+        'Toggle [S]uggestion trigger',
+      },
     },
-  }, { mode = 'i' })
-
-  -- which_key.register({
-  --   ['<Leader>'] = {
-  --     c = {
-  --       name = '+Copilot',
-  --       s = {
-  --         function()
-  --           copilot_suggestion.toggle_auto_trigger()
-  --         end,
-  --         'Toggle [S]uggestion trigger',
-  --       },
-  --     },
-  --   },
-  -- }, { mode = 'i' })
+  })
 end
 
 return {

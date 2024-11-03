@@ -24,10 +24,12 @@ local config = function()
         return
       end
 
-      which_key.register({
-        [']'] = {
-          name = 'gitsigns',
-          c = {
+      which_key.add({
+        {
+          mode = { 'n' },
+          { ']', buffer = bufnr, group = 'gitsigns' },
+          {
+            ']c',
             function()
               if vim.wo.diff then
                 return ']c'
@@ -39,79 +41,74 @@ local config = function()
 
               return '<Ignore>'
             end,
-            'Go to next hunk',
+            buffer = bufnr,
+            desc = 'Go to next hunk',
           },
-        },
-      }, { mode = 'n', buffer = bufnr })
-
-      which_key.register({
-        ['['] = {
-          name = 'gitsigns',
-          c = {
+          { '[', buffer = bufnr, group = 'gitsigns' },
+          {
+            '[c',
             function()
               if vim.wo.diff then
-                return '[c'
+                return ']c'
               end
 
               vim.schedule(function()
-                gs.prev_hunk()
+                gs.next_hunk()
               end)
 
               return '<Ignore>'
             end,
-            'Go to previous hunk',
+            buffer = bufnr,
+            desc = 'Go to previous hunk',
           },
-        },
-      }, { mode = 'n', buffer = bufnr })
-
-      which_key.register({
-        ['<Leader>'] = {
-          h = {
-            name = 'gitsigns',
-            s = { gs.stage_hunk, '[S]tage hunk (visual)' },
-            r = { gs.reset_hunk, '[R]eset hunk (visual)' },
+          { '<Leader>h', buffer = bufnr, group = 'gitsigns' },
+          {
+            '<Leader>hB',
+            gs.toggle_current_line_blame,
+            buffer = bufnr,
+            desc = 'Git [B]lame toggle',
           },
-        },
-      }, { mode = 'v', buffer = bufnr })
-
-      which_key.register({
-        ['<Leader>'] = {
-          h = {
-            name = 'gitsigns',
-            s = { gs.stage_hunk, '[S]tage hunk' },
-            r = { gs.reset_hunk, '[R]eset hunk' },
-            u = { gs.undo_stage_hunk, '[U]ndo staged hunk' },
-            R = { gs.reset_buffer, '[R]eset buffer' },
-            p = { gs.preview_hunk, '[P]review hunk' },
-            S = { gs.stage_buffer, '[S]tage buffer' },
-            b = {
-              function()
-                gs.blame_line({ full = true })
-              end,
-              'Git [B]lame',
-            },
-            B = { gs.toggle_current_line_blame, 'Git [B]lame toggle' },
-            d = { gs.diffthis, 'Git [D]iff' },
-            D = {
-              function()
-                gs.diffthis('~')
-              end,
-              'Git [D]iff ~',
-            },
+          {
+            '<Leader>hD',
+            function()
+              gs.diffthis('~')
+            end,
+            buffer = bufnr,
+            desc = 'Git [D]iff ~',
           },
-          l = { gs.toggle_deleted, 'Toggle de[L]eted' },
+          { '<Leader>hR', gs.reset_buffer, buffer = bufnr, desc = '[R]eset buffer' },
+          { '<Leader>hS', gs.stage_buffer, buffer = bufnr, desc = '[S]tage buffer' },
+
+          {
+            '<Leader>hb',
+            function()
+              gs.blame_line({ full = true })
+            end,
+            buffer = bufnr,
+            desc = 'Git [B]lame',
+          },
+          { '<Leader>hd', gs.diffthis, buffer = bufnr, desc = 'Git [D]iff' },
+          { '<Leader>hp', gs.preview_hunk, buffer = bufnr, desc = '[P]review hunk' },
+          { '<Leader>hr', gs.reset_hunk, buffer = bufnr, desc = '[R]eset hunk' },
+          { '<Leader>hs', gs.stage_hunk, buffer = bufnr, desc = '[S]tage hunk' },
+          { '<Leader>hu', gs.undo_stage_hunk, buffer = bufnr, desc = '[U]ndo staged hunk' },
+          { '<Leader>l', gs.toggle_deleted, buffer = bufnr, desc = 'Toggle de[L]eted' },
         },
-      }, { mode = 'n', buffer = bufnr })
-
-      which_key.register(
-        { ih = { gs.select_hunk, 'Select [I]nner [H]unk' } },
-        { mode = 'o', buffer = bufnr }
-      )
-
-      which_key.register(
-        { ih = { gs.select_hunk, 'Select [I]nner [H]unk' } },
-        { mode = 'x', buffer = bufnr }
-      )
+        {
+          mode = { 'v' },
+          { '<Leader>h', buffer = bufnr, group = 'gitsigns' },
+          { '<Leader>hs', gs.stage_hunk, buffer = bufnr, desc = '[S]tage hunk (visual)' },
+          { '<Leader>hr', gs.reset_hunk, buffer = bufnr, desc = '[R]eset hunk (visual)' },
+        },
+        {
+          mode = { 'o' },
+          { 'ih', gs.select_hunk, buffer = bufnr, desc = 'Select [I]nner [H]unk' },
+        },
+        {
+          mode = { 'x' },
+          { 'ih', gs.select_hunk, buffer = bufnr, desc = 'Select [I]nner [H]unk' },
+        },
+      })
     end,
     -- watch_index = { interval = 1000 },
     current_line_blame = true,

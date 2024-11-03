@@ -11,12 +11,15 @@ local config = function()
     return
   end
 
-  which_key.register({
-    ['<C-h>'] = { tmux_nav.NvimTmuxNavigateLeft, 'Navigate Left [H]' },
-    ['<C-j>'] = { tmux_nav.NvimTmuxNavigateDown, 'Navigate Down [J]' },
-    ['<C-k>'] = { tmux_nav.NvimTmuxNavigateUp, 'Navigate Up [K]' },
-    ['<C-l>'] = { tmux_nav.NvimTmuxNavigateRight, 'Navigate Right [L]' },
-  }, { mode = 'n' })
+  which_key.add({
+    {
+      mode = { 'n' },
+      { '<C-h>', tmux_nav.NvimTmuxNavigateLeft, desc = 'Navigate Left [H]' },
+      { '<C-j>', tmux_nav.NvimTmuxNavigateDown, desc = 'Navigate Down [J]' },
+      { '<C-k>', tmux_nav.NvimTmuxNavigateUp, desc = 'Navigate Up [K]' },
+      { '<C-l>', tmux_nav.NvimTmuxNavigateRight, desc = 'Navigate Right [L]' },
+    },
+  })
 end
 
 -- this needs to be tested properly post migration with tmux

@@ -28,41 +28,35 @@ M.keymaps = function()
     return
   end
 
-  which_key.register({
-    g = {
-      name = 'Go to',
-      D = { vim.lsp.buf.declaration, '[D]eclaration' },
-      d = { vim.lsp.buf.definition, '[D]efinition' },
-      i = { vim.lsp.buf.implementation, '[I]mplementation' },
-      r = { vim.lsp.buf.references, '[R]eferences' },
-    },
-    K = { vim.lsp.buf.hover, 'Hover' },
-    ['['] = {
-      d = { vim.diagnostic.goto_prev, 'Previous [D]iagnostic' },
-    },
-    [']'] = { d = { vim.diagnostic.goto_next, 'Next [D]iagnostic' } },
-    [','] = {
-      D = { vim.lsp.buf.type_definition, 'Type [D]efinition' },
-      rn = { vim.lsp.buf.rename, '[R]e[N]ame symbol' },
-      ca = { vim.lsp.buf.code_action, '[C]ode [A]ction' },
-      k = { vim.lsp.buf.signature_help, 'Signature help' },
-      e = { vim.diagnostic.open_float, 'Op[E]n diagnostics' },
-      q = {
-        vim.diagnostic.setloclist,
-        'Create/replace location list for window',
+  which_key.add({
+    {
+      mode = { 'n' },
+      { ',', group = 'LSP' },
+      { ',D', vim.lsp.buf.type_definition, desc = 'Type [D]efinition' },
+      { ',ca', vim.lsp.buf.code_action, desc = '[C]ode [A]ction' },
+      { ',e', vim.diagnostic.open_float, desc = 'Op[E]n diagnostics' },
+      { ',f', vim.lsp.buf.format, desc = '[F]ormat file' },
+      { ',k', vim.lsp.buf.signature_help, desc = 'Signature help' },
+      { ',q', vim.diagnostic.setloclist, desc = 'Create/replace location list for window' },
+      { ',rn', vim.lsp.buf.rename, desc = '[R]e[N]ame symbol' },
+      { ',w', group = 'Workspace' },
+      { ',wa', vim.lsp.buf.add_workspace_folder, desc = '[A]dd folder' },
+      {
+        ',wl',
+        function()
+          print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+        end,
+        desc = '[L]ist folders',
       },
-      f = { vim.lsp.buf.format, '[F]ormat file' },
-      w = {
-        name = 'Workspace',
-        a = { vim.lsp.buf.add_workspace_folder, '[A]dd folder' },
-        r = { vim.lsp.buf.remove_workspace_folder, '[R]emove folder' },
-        l = {
-          function()
-            print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-          end,
-          '[L]ist folders',
-        },
-      },
+      { ',wr', vim.lsp.buf.remove_workspace_folder, desc = '[R]emove folder' },
+      { 'K', vim.lsp.buf.hover, desc = 'Hover' },
+      { '[d', vim.diagnostic.goto_prev, desc = 'Previous [D]iagnostic' },
+      { ']d', vim.diagnostic.goto_next, desc = 'Next [D]iagnostic' },
+      { 'g', group = 'Go to' },
+      { 'gD', vim.lsp.buf.declaration, desc = '[D]eclaration' },
+      { 'gd', vim.lsp.buf.definition, desc = '[D]efinition' },
+      { 'gi', vim.lsp.buf.implementation, desc = '[I]mplementation' },
+      { 'gr', vim.lsp.buf.references, desc = '[R]eferences' },
     },
   })
 end
@@ -85,8 +79,8 @@ local async_formatting = function(bufnr)
 
       -- don't apply results if buffer is unloaded or has been modified
       if
-          not vim.api.nvim_buf_is_loaded(bufnr)
-          or vim.api.nvim_buf_get_option(bufnr, 'modified')
+        not vim.api.nvim_buf_is_loaded(bufnr)
+        or vim.api.nvim_buf_get_option(bufnr, 'modified')
       then
         return
       end

@@ -17,75 +17,29 @@ local config = function()
     return
   end
 
-  which_key.register({ ['<C-t>'] = { fterm.toggle, 'Toggle built in terminal' } }, { mode = 't' })
+  which_key.add({
+    {
+      mode = { 'n' },
+      { '<C-t>', fterm.toggle, desc = 'Toggle built in [T]erminal' },
+      {
+        '<Leader>g',
+        function()
+          local term = require('FTerm.terminal')
+          local lazygit = term:new():setup({
+            dimensions = default_dimmensions,
+            border = 'single', -- or 'double'
+            cmd = 'lazygit',
+          })
 
-  _G.lazygit_toggle = function()
-    local term = require('FTerm.terminal')
-    local lazygit = term:new():setup({
-      dimensions = default_dimmensions,
-      border = 'single', -- or 'double'
-      cmd = 'lazygit',
-    })
+          vim.api.nvim_get_current_buf()
 
-    vim.api.nvim_get_current_buf()
-
-    lazygit:toggle()
-  end
-
-  -- -- Create LazyGit Terminal
-  -- local term = require "FTerm.terminal"
-  -- local lazy = term:new():setup(
-  --                {
-  --     dimensions = default_dimmensions,
-  --     border = "single", -- or 'double'
-  --     cmd = "lazygit",
-  --   }
-  --              )
-
-  -- local function is_installed(exe)
-  --   return vim.fn.executable(exe) == 1
-  -- end
-
-  -- -- Use this to toggle gitui in a floating terminal
-  -- function _G.__fterm_lazygit()
-  --   if is_installed "lazygit" ~= true then
-  --     print "Please install lazygit. Check documentation for more information"
-  --     return
-  --   end
-
-  --   lazy:toggle()
-  -- end
-
-  -- TODO: use lazygit_toggle function here directly
-  which_key.register({
-    ['<C-t>'] = { fterm.toggle, 'Toggle built in [T]erminal' },
-    -- LazyGit integration
-    ['<Leader>'] = {
-      g = {
-        '<CMD>lua _G.lazygit_toggle()<CR>',
-        'Open Lazy[G]it terminal',
+          lazygit:toggle()
+        end,
+        desc = 'Open Lazy[G]it terminal',
       },
     },
+    { '<C-t>', fterm.toggle, desc = 'Toggle built in [T]erminal', mode = 't' },
   })
-
-  -- local map = vim.api.nvim_set_keymap
-  -- local opts = { noremap = true, silent = true }
-
-  -- map(
-  --   "n", "<Leader>g", function()
-  --     local term = require("FTerm.terminal")
-  --     local lazygit = term:new()
-
-  --     vim.api.nvim_get_current_buf()
-  --     lazygit:setup(
-  --       {
-  --         dimensions = default_dimmensions,
-  --         border = "single", -- or 'double'
-  --         cmd = "lazygit",
-  --       }
-  --     )
-  --   end, opts
-  -- )
 
   -- might not be need post migration
   vim.api.nvim_set_hl(0, 'VertSplit', { bg = 'NONE' })

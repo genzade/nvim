@@ -11,19 +11,19 @@ local config = function()
     return
   end
 
-  which_key.register({
-    ['<Leader>'] = {
-      n = {
-        name = '+Notify',
-        c = {
-          function()
-            notify.dismiss({ silent = true, pending = true })
-          end,
-          '[C]lose Notification',
-        },
+  which_key.add({
+    { '<Leader>n', group = 'Notify' },
+    {
+      mode = { 'n' },
+      {
+        '<Leader>nc',
+        function()
+          notify.dismiss({ silent = true, pending = true })
+        end,
+        desc = 'Close Notification',
       },
     },
-  }, { mode = 'n' })
+  })
 
   notify.setup({
     stages = 'static',

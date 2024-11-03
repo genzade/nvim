@@ -17,17 +17,13 @@ local config = function()
     return
   end
 
-  which_key.register({
-    ['<Leader>'] = {
-      a = {
-        name = '+Projectionist',
-        a = { '<CMD>A<CR>', 'Open [A]lternate file' },
-        v = { '<CMD>AV<CR>', 'Open alternate file (split [V]ert)' },
-        s = { '<CMD>AS<CR>', 'Open alternate file ([S]plit hor)' },
-        t = { '<CMD>AT<CR>', 'Open alternate file (new [T]ab)' },
-      },
-    },
-  }, { mode = 'n' })
+  which_key.add({
+    { '<Leader>a', group = 'Projectionist' },
+    { '<Leader>aa', '<CMD>A<CR>', desc = 'Open [A]lternate file' },
+    { '<Leader>as', '<CMD>AS<CR>', desc = 'Open alternate file ([S]plit hor)' },
+    { '<Leader>at', '<CMD>AT<CR>', desc = 'Open alternate file (new [T]ab)' },
+    { '<Leader>av', '<CMD>AV<CR>', desc = 'Open alternate file (split [V]ert)' },
+  })
 end
 
 return {

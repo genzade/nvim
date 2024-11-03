@@ -11,26 +11,26 @@ local config = function()
 
   telescope.load_extension('yaml_schema')
 
-  which_key.register({
-    ['<Leader>'] = {
-      f = {
-        name = '+Telescope',
-        -- y = { tbuiltin.yaml_schema, 'Find [Y]aml schema' },
-        y = {
-          function()
-            telescope.extensions.yaml_schema.yaml_schema()
-          end,
-          'Find [Y]aml schema'
-        },
+  -- TODO: not working since upgrade to 0.10.0, related to
+  -- https://github.com/someone-stole-my-name/yaml-companion.nvim/issues/52
+  which_key.add({
+    {
+      mode = { 'n' },
+      {
+        '<Leader>fy',
+        function()
+          telescope.extensions.yaml_schema.yaml_schema()
+        end,
+        'Find [Y]aml schema',
       },
     },
-  }, { mode = 'n' })
+  })
 end
 
 return {
   'someone-stole-my-name/yaml-companion.nvim',
   lazy = true,
-  ft = { 'yaml', 'json' },
+  ft = { 'yml', 'yaml', 'json' },
   dependencies = {
     -- { 'b0o/schemastore.nvim', commit = '6f2ffb8420422db9a6c43dbce7227f0fdb9fcf75' },
     'folke/which-key.nvim',
