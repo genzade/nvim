@@ -1,7 +1,3 @@
--- local function augroup(name)
---   return vim.api.nvim_create_augroup('genzade_' .. name, { clear = true })
--- end
-
 local autocmd = vim.api.nvim_create_autocmd
 local augroup = require('genzade.core.utils').create_augroup
 
@@ -42,6 +38,7 @@ autocmd('FileType', {
   group = augroup('quick_close'),
   pattern = {
     'checkhealth',
+    'help',
     'notify',
     'qf',
   },
