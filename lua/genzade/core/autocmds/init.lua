@@ -43,6 +43,7 @@ autocmd('FileType', {
   pattern = {
     'checkhealth',
     'notify',
+    'qf',
   },
   callback = function(event)
     vim.bo[event.buf].buflisted = false
