@@ -49,7 +49,6 @@ local config = function()
     return
   end
 
-  -- TODO: fix this. mappings are not working properly
   wk.add({
     {
       mode = { 'n' },
@@ -59,25 +58,24 @@ local config = function()
         function()
           copilot_panel.open({ position = 'bottom', ratio = 0.4 })
         end,
-        'Open [P]anel',
+        desc = 'Open [P]anel',
       },
       {
         '<Leader>cs',
         function()
           copilot_suggestion.toggle_auto_trigger()
         end,
-        'Toggle [S]uggestion trigger',
+        desc = 'Toggle [S]uggestion trigger',
       },
     },
     {
-
       mode = { 'i' },
       {
         '<C-s>',
         function()
           copilot_suggestion.toggle_auto_trigger()
         end,
-        'Toggle [S]uggestion trigger',
+        desc = 'Toggle [S]uggestion trigger',
       },
     },
   })
