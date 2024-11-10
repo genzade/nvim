@@ -21,7 +21,7 @@ local config = function()
         function()
           telescope.extensions.yaml_schema.yaml_schema()
         end,
-        'Find [Y]aml schema',
+        desc = 'Find [Y]aml schema',
       },
     },
   })
