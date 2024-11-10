@@ -7,7 +7,7 @@ local config = function()
   wk.add({
     {
       mode = { 'n' },
-      { '<A-x>', '<CMD>BufferClose<CR>', desc = 'Close the buffer' },
+      { '<Leader>x', '<CMD>BufferClose<CR>', desc = 'Close the buffer' },
       { '<C-TAB>', '<CMD>BufferPrevious<CR>', desc = 'Go to previous buffer' },
       { '<S-TAB>', '<CMD>BufferNext<CR>', desc = 'Go to next buffer' },
     },
