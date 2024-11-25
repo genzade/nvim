@@ -1,5 +1,6 @@
-local autocmd = vim.api.nvim_create_autocmd
-local augroup = require('genzade.core.utils').create_augroup
+local utils = require('genzade.core.utils')
+local augroup = utils.create_augroup
+local autocmd = utils.create_autocmd
 
 -- Highlight when yanking (copying) text
 autocmd('TextYankPost', {

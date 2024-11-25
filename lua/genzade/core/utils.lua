@@ -1,7 +1,14 @@
 M = {}
 
-M.create_augroup = function(name)
-  return vim.api.nvim_create_augroup('genzade_' .. name, { clear = true })
+M.create_augroup = function(name, opts)
+  return vim.api.nvim_create_augroup(
+    'genzade_' .. name,
+    { clear = opts and opts.clear or true }
+  )
+end
+
+M.create_autocmd = function(...)
+  return vim.api.nvim_create_autocmd(...)
 end
 
 M.sanitize_str = function(str)

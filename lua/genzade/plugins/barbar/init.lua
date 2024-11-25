@@ -30,7 +30,12 @@ local config = function()
   --   end,
   -- })
 
-  vim.api.nvim_create_autocmd('BufWinLeave', {
+  local utils = require('genzade.core.utils')
+  local augroup = utils.create_augroup
+  local autocmd = utils.create_autocmd
+
+  autocmd('BufWinLeave', {
+    group = augroup('bufferline_offset'),
     pattern = '*',
     callback = function()
       if vim.fn.expand('<afile>'):match('NvimTree') then
