@@ -11,6 +11,7 @@ local config = function()
       additional_vim_regex_highlighting = false,
     },
     indent = { enable = true },
+    ignore_install = { "norg" },
     -- needs testing post migration
     textobjects = {
       lsp_interop = {
@@ -70,15 +71,7 @@ end
 return {
   'nvim-treesitter/nvim-treesitter',
   event = { 'BufRead', 'BufNewFile', 'FileType' },
-  build = function()
-    local ok, ts_install = pcall(require, 'nvim-treesitter.install')
-    if not ok then
-      vim.notify('Cannot run `TSUpdate`, treesitter not available')
-      return
-    end
-
-    ts_install.update({ with_sync = true })
-  end,
+  build = ':TSUpdate',
   dependencies = { 'nvim-treesitter/nvim-treesitter-textobjects' },
   config = config,
 }
