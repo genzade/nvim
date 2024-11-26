@@ -55,6 +55,9 @@ g.loaded_python3_provider = 0
 g.loaded_node_provider = 0
 g.loaded_perl_provider = 0
 
+-- make sure we have a nerd fonts instaalled otherwise set to false
+g.have_nerd_font = true
+
 opt.spell = true
 opt.spelllang = { 'en_gb' }
 
