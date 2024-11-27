@@ -36,7 +36,7 @@ local config = function()
           group = augroup('lsp_detach', { clear = true }),
           callback = function(event2)
             vim.lsp.buf.clear_references()
-            vim.api.nvim_clear_autocmds({ group = 'lsp_highlight', buffer = event2.buf })
+            vim.api.nvim_clear_autocmds({ group = 'genzade_lsp_highlight', buffer = event2.buf })
           end,
         })
       end
