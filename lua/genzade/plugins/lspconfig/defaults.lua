@@ -110,7 +110,9 @@ M.servers = function()
   end
 
   return {
-    bashls = {},
+    bashls = {
+      filetypes = { 'sh', 'zsh' },
+    },
     clangd = {
       init_options = { clangdFileStatus = true },
       filetypes = { "c" },
