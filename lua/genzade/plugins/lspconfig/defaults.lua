@@ -11,6 +11,26 @@ M.setup_keymaps = function()
     return
   end
 
+  local ok, conform = pcall(require, 'conform')
+  if not ok then
+    return
+  end
+
+  vim.api.nvim_create_user_command('AutoFormatToggle', function()
+    if not vim.b.disable_autoformat then
+      vim.b.disable_autoformat = true
+      vim.notify('Autoformat-on-save disabled on buffer', 'info', { title = 'Conform' })
+    -- I rarely need to disable globally so I'm commenting this out
+    -- elseif vim.b.disable_autoformat and not vim.g.disable_autoformat then
+    --   vim.g.disable_autoformat = true
+    --   vim.notify('Autoformat-on-save disabled globally', 'info', { title = 'Conform' })
+    else
+      -- vim.g.disable_autoformat = false
+      vim.b.disable_autoformat = false
+      vim.notify('Autoformat-on-save re-enabled', 'info', { title = 'Conform' })
+    end
+  end, { desc = 'Toggle autoformat on save', bang = true })
+
   wk.add({
     {
       mode = { 'n' },
@@ -18,13 +38,19 @@ M.setup_keymaps = function()
       { ',D',  telescope_bltn.lsp_type_definitions,          desc = 'Type [D]efinition' },
       { ',ca', vim.lsp.buf.code_action,                      desc = '[C]ode [A]ction' },
       { ',e',  vim.diagnostic.open_float,                    desc = 'Op[E]n diagnostics' },
-      { ',f',  vim.lsp.buf.format,                           desc = '[F]ormat file' },
       { ',k',  vim.lsp.buf.signature_help,                   desc = 'Signature help' },
       { ',q',  vim.diagnostic.setloclist,                    desc = 'Create/replace location list for window' },
       { ',s',  telescope_bltn.lsp_document_symbols,          desc = 'Document [S]ymbols' },
       { ',rn', vim.lsp.buf.rename,                           desc = '[R]e[N]ame symbol' },
       { ',w',  group = 'Workspace' },
       { ',wa', vim.lsp.buf.add_workspace_folder,             desc = '[A]dd folder' },
+      {
+        ',F',
+        function()
+          vim.cmd.AutoFormatToggle()
+        end,
+        desc = 'Toggle auto[F]ormat',
+      },
       { ',ws', telescope_bltn.lsp_dynamic_workspace_symbols, desc = '[W]orkspace [S]ymbols' },
       {
         ',wl',
@@ -42,6 +68,19 @@ M.setup_keymaps = function()
       { 'gd',  telescope_bltn.lsp_definitions,      desc = '[G]o to [D]efinition' },
       { 'gi',  vim.lsp.buf.implementation,          desc = '[G]o to [I]mplementation' },
       { 'gr',  telescope_bltn.lsp_references,       desc = '[G]o to [R]eferences' },
+    {
+      mode = { 'n', 'v' },
+      {
+        ',f',
+        function()
+          conform.format({
+            lsp_fallback = true,
+            async = false,
+            timeout_ms = 500,
+          })
+        end,
+        desc = '[F]ormat file or range (VISUAL)',
+      },
     },
   })
 end
