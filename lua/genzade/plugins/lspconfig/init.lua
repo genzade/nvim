@@ -15,10 +15,9 @@ local config = function()
       --
       -- When you move your cursor, the highlights will be cleared (the second autocommand).
       local client = vim.lsp.get_client_by_id(event.data.client_id)
-      if client
-          and client.supports_method(
-            vim.lsp.protocol.Methods.textDocument_documentHighlight
-          ) then
+      if
+        client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight)
+      then
         local highlight_augroup = augroup('lsp_highlight', { clear = false })
         autocmd({ 'CursorHold', 'CursorHoldI' }, {
           buffer = event.buf,
@@ -36,13 +35,15 @@ local config = function()
           group = augroup('lsp_detach', { clear = true }),
           callback = function(event2)
             vim.lsp.buf.clear_references()
-            vim.api.nvim_clear_autocmds({ group = 'genzade_lsp_highlight', buffer = event2.buf })
+            vim.api.nvim_clear_autocmds({
+              group = 'genzade_lsp_highlight',
+              buffer = event2.buf,
+            })
           end,
         })
       end
 
-      if client and
-          client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
+      if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
         local map = function(keys, func, desc, mode)
           mode = mode or 'n'
           vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = desc })
@@ -60,7 +61,7 @@ local config = function()
     for sign_type, sign_icon in pairs(defaults.signs) do
       diagnostic_signs[vim.diagnostic.severity[sign_type]] = sign_icon
     end
-    vim.diagnostic.config { signs = { text = diagnostic_signs } }
+    vim.diagnostic.config({ signs = { text = diagnostic_signs } })
   end
 
   local cmp_nvim_lsp_ok, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
@@ -104,12 +105,16 @@ local config = function()
   -- for you, so that they are available from within Neovim.
   local ensure_installed = vim.tbl_keys(defaults.servers() or {})
   vim.list_extend(ensure_installed, {
-    'erb-lint',   -- Used to lint ERB files
-    'haml-lint',  -- Used to lint HAML files
-    'hadolint',   -- Used to lint Dockerfiles
-    'rubocop',    -- Used to lint Ruby files -- NOTE: Already included in asdf/.default-gems
+    'erb-lint', -- Used to lint ERB files
+    'erb-formatter', -- Used to format ERB files
+    'haml-lint', -- Used to lint HAML files
+    'hadolint', -- Used to lint Dockerfiles
+    -- 'prettier', -- Used to format JavaScript, TypeScript, JSON, CSS, SCSS, HTML, and Markdown files
+    'prettierd', -- Used to format JavaScript, TypeScript, JSON, CSS, SCSS, HTML, and Markdown files
+    'rubocop', -- Used to lint Ruby files -- NOTE: Already included in asdf/.default-gems
     'shellcheck', -- Used to lint shell scripts
-    'stylua',     -- Used to format Lua code
+    'stylua', -- Used to format Lua code
+    'yamlfmt', -- Used to format YAML files
     -- 'yamllint', -- Used to lint YAML files -- NOTE: need to add python3 to path
   })
 
@@ -131,12 +136,8 @@ local config = function()
         -- This handles overriding only values explicitly passed
         -- by the server configuration above. Useful when disabling
         -- certain features of an LSP (for example, turning off formatting for ts_ls)
-        server.capabilities = vim.tbl_deep_extend(
-          'force',
-          {},
-          capabilities,
-          server.capabilities or {}
-        )
+        server.capabilities =
+          vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
         lspconfig[server_name].setup(server)
       end,
     },
@@ -155,7 +156,7 @@ return {
     {
       'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
       config = function()
-        require("lsp_lines").setup()
+        require('lsp_lines').setup()
         -- Disable virtual_text since it's redundant due to lsp_lines.
         vim.diagnostic.config({
           virtual_text = false,
@@ -166,6 +167,7 @@ return {
       end,
     },
     { 'folke/lazydev.nvim', ft = 'lua' },
+    'stevearc/conform.nvim',
   },
   config = config,
 }

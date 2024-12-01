@@ -34,16 +34,11 @@ M.setup_keymaps = function()
   wk.add({
     {
       mode = { 'n' },
-      { ',',   group = 'LSP' },
-      { ',D',  telescope_bltn.lsp_type_definitions,          desc = 'Type [D]efinition' },
-      { ',ca', vim.lsp.buf.code_action,                      desc = '[C]ode [A]ction' },
-      { ',e',  vim.diagnostic.open_float,                    desc = 'Op[E]n diagnostics' },
-      { ',k',  vim.lsp.buf.signature_help,                   desc = 'Signature help' },
-      { ',q',  vim.diagnostic.setloclist,                    desc = 'Create/replace location list for window' },
-      { ',s',  telescope_bltn.lsp_document_symbols,          desc = 'Document [S]ymbols' },
-      { ',rn', vim.lsp.buf.rename,                           desc = '[R]e[N]ame symbol' },
-      { ',w',  group = 'Workspace' },
-      { ',wa', vim.lsp.buf.add_workspace_folder,             desc = '[A]dd folder' },
+      { ',', group = 'LSP' },
+      { ',D', telescope_bltn.lsp_type_definitions, desc = 'Type [D]efinition' },
+      { ',ca', vim.lsp.buf.code_action, desc = '[C]ode [A]ction' },
+      { ',e', vim.diagnostic.open_float, desc = 'Op[E]n diagnostics' },
+      -- { ',f',  vim.lsp.buf.format,                           desc = '[F]ormat file' },
       {
         ',F',
         function()
@@ -51,6 +46,16 @@ M.setup_keymaps = function()
         end,
         desc = 'Toggle auto[F]ormat',
       },
+      { ',k', vim.lsp.buf.signature_help, desc = 'Signature help' },
+      {
+        ',q',
+        vim.diagnostic.setloclist,
+        desc = 'Create/replace location list for window',
+      },
+      { ',s', telescope_bltn.lsp_document_symbols, desc = 'Document [S]ymbols' },
+      { ',rn', vim.lsp.buf.rename, desc = '[R]e[N]ame symbol' },
+      { ',w', group = 'Workspace' },
+      { ',wa', vim.lsp.buf.add_workspace_folder, desc = '[A]dd folder' },
       { ',ws', telescope_bltn.lsp_dynamic_workspace_symbols, desc = '[W]orkspace [S]ymbols' },
       {
         ',wl',
@@ -60,14 +65,15 @@ M.setup_keymaps = function()
         desc = '[L]ist folders',
       },
       { ',wr', vim.lsp.buf.remove_workspace_folder, desc = '[R]emove folder' },
-      { 'K',   vim.lsp.buf.hover,                   desc = 'Hover' },
-      { '[d',  vim.diagnostic.goto_prev,            desc = 'Previous [D]iagnostic' },
-      { ']d',  vim.diagnostic.goto_next,            desc = 'Next [D]iagnostic' },
-      { 'g',   group = 'Goto' },
-      { 'gD',  vim.lsp.buf.declaration,             desc = '[G]o to [D]eclaration' },
-      { 'gd',  telescope_bltn.lsp_definitions,      desc = '[G]o to [D]efinition' },
-      { 'gi',  vim.lsp.buf.implementation,          desc = '[G]o to [I]mplementation' },
-      { 'gr',  telescope_bltn.lsp_references,       desc = '[G]o to [R]eferences' },
+      { 'K', vim.lsp.buf.hover, desc = 'Hover' },
+      { '[d', vim.diagnostic.goto_prev, desc = 'Previous [D]iagnostic' },
+      { ']d', vim.diagnostic.goto_next, desc = 'Next [D]iagnostic' },
+      { 'g', group = 'Goto' },
+      { 'gD', vim.lsp.buf.declaration, desc = '[G]o to [D]eclaration' },
+      { 'gd', telescope_bltn.lsp_definitions, desc = '[G]o to [D]efinition' },
+      { 'gi', vim.lsp.buf.implementation, desc = '[G]o to [I]mplementation' },
+      { 'gr', telescope_bltn.lsp_references, desc = '[G]o to [R]eferences' },
+    },
     {
       mode = { 'n', 'v' },
       {
@@ -115,7 +121,7 @@ M.servers = function()
     },
     clangd = {
       init_options = { clangdFileStatus = true },
-      filetypes = { "c" },
+      filetypes = { 'c' },
     },
     cssls = {
       server_capabilities = {
@@ -148,62 +154,62 @@ M.servers = function()
       },
     },
     solargraph = {
-      settings = {
-        solargraph = {
-          diagnostics = false,
-        },
-      },
+      -- settings = {
+      --   solargraph = {
+      --     diagnostics = false,
+      --   },
+      -- },
     },
     tailwindcss = {
       init_options = {
         userLanguages = {
-          eruby = "erb",
+          eruby = 'erb',
         },
       },
       filetypes = {
         -- html
-        "erb",
-        "eruby", -- vim ft
-        "haml",
-        "handlebars",
-        "hbs",
-        "html",
-        "liquid",
-        "markdown",
-        "mustache",
-        "slim",
+        'erb',
+        'eruby', -- vim ft
+        'haml',
+        'handlebars',
+        'hbs',
+        'html',
+        'liquid',
+        'markdown',
+        'mustache',
+        'slim',
         -- css
-        "css",
-        "postcss",
-        "sass",
-        "scss",
+        'css',
+        'postcss',
+        'sass',
+        'scss',
         -- js
-        "javascript",
-        "javascriptreact",
-        "typescript",
-        "typescriptreact",
+        'javascript',
+        'javascriptreact',
+        'typescript',
+        'typescriptreact',
         -- mixed
-        "vue",
-        "svelte",
+        'vue',
+        'svelte',
       },
       settings = {
         tailwindCSS = {
           experimental = {
             classRegex = {
-              { "class: ?\"([^\"]*)\"",          "([a-zA-Z0-9\\-:]+)" },
-              { "(\\.[\\w\\-.]+)[\\n\\=\\{\\s]", "([\\w\\-]+)" },
+              { 'class: ?"([^"]*)"', '([a-zA-Z0-9\\-:]+)' },
+              { '(\\.[\\w\\-.]+)[\\n\\=\\{\\s]', '([\\w\\-]+)' },
             },
           },
           includeLanguages = {
-            haml = "html",
+            haml = 'html',
           },
         },
       },
     },
-    taplo = {},
+    taplo = {}, -- TOML
     terraformls = {},
     ts_ls = {
-      root_dir = require('lspconfig').util.root_pattern("package.json"),
+      root_dir = require('lspconfig').util.root_pattern('package.json'),
       single_file = false,
       server_capabilities = {
         documentFormattingProvider = false,
