@@ -23,4 +23,5 @@ return {
     'mason.nvim',
   },
   config = config,
+  enabled = false,
 }
