@@ -49,25 +49,30 @@ autocmd('FileType', {
   end,
 })
 
--- Sets the current line's color based on the current mode
--- Equivalent to modicator but fast
-local mode_hl_groups = {
-  [''] = 'ModeVisual',
-  v = 'ModeVisual',
-  V = 'ModeVisual',
-  ['\22'] = 'ModeVisual',
-  n = 'ModeNormal',
-  no = 'ModeNormal',
-  i = 'ModeInsert',
-  c = 'ModeCommand',
-  s = 'ModeSelect',
-  S = 'ModeSelect',
-  R = 'ModeReplace',
-  t = 'ModeTerminal',
-  nt = 'ModeTerminal',
-}
 autocmd({ 'BufEnter', 'ModeChanged' }, {
   callback = function()
+    -- not needed in NvimTree
+    if vim.bo.filetype == 'NvimTree' then
+      return
+    end
+
+    -- Sets the current line's color based on the current mode
+    -- Equivalent to modicator but fast
+    local mode_hl_groups = {
+      [''] = 'ModeVisual',
+      v = 'ModeVisual',
+      V = 'ModeVisual',
+      ['\22'] = 'ModeVisual',
+      n = 'ModeNormal',
+      no = 'ModeNormal',
+      i = 'ModeInsert',
+      c = 'ModeCommand',
+      s = 'ModeSelect',
+      S = 'ModeSelect',
+      R = 'ModeReplace',
+      t = 'ModeTerminal',
+      nt = 'ModeTerminal',
+    }
     local mode = vim.api.nvim_get_mode().mode
     local mode_hl_group = mode_hl_groups[mode]
 
@@ -107,12 +112,12 @@ local function delete_qf_items()
     vim.api.nvim_feedkeys(
       vim.api.nvim_replace_termcodes(
         '<esc>', -- what to escape
-        true,    -- Vim leftovers
-        false,   -- Also replace `<lt>`?
-        true     -- Replace keycodes (like `<esc>`)?
+        true, -- Vim leftovers
+        false, -- Also replace `<lt>`?
+        true -- Replace keycodes (like `<esc>`)?
       ),
-      'x',       -- Mode flag
-      false      -- Should be false, since we already `nvim_replace_termcodes()`
+      'x', -- Mode flag
+      false -- Should be false, since we already `nvim_replace_termcodes()`
     )
   end
 
