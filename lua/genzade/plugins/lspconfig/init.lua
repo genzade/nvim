@@ -107,13 +107,17 @@ local config = function()
   vim.list_extend(ensure_installed, {
     'erb-lint', -- Used to lint ERB files
     'erb-formatter', -- Used to format ERB files
+    'eslint_d', -- Used to lint JavaScript and TypeScript files
     'haml-lint', -- Used to lint HAML files
     'hadolint', -- Used to lint Dockerfiles
-    -- 'prettier', -- Used to format JavaScript, TypeScript, JSON, CSS, SCSS, HTML, and Markdown files
+    'jsonlint', -- Used to lint JSON files
     'prettierd', -- Used to format JavaScript, TypeScript, JSON, CSS, SCSS, HTML, and Markdown files
     'rubocop', -- Used to lint Ruby files -- NOTE: Already included in asdf/.default-gems
+    'markdownlint', -- Used to lint Markdown files
     'shellcheck', -- Used to lint shell scripts
+    'stylelint', -- Used to lint CSS and SCSS files
     'stylua', -- Used to format Lua code
+    'htmlhint', -- Used to lint HTML files
     'yamlfmt', -- Used to format YAML files
     -- 'yamllint', -- Used to lint YAML files -- NOTE: need to add python3 to path
   })
