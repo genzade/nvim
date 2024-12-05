@@ -154,6 +154,7 @@ M.servers = function()
       },
     },
     solargraph = {
+      fileTypes = { 'ruby', 'erb', 'eruby', 'haml' },
       -- settings = {
       --   solargraph = {
       --     diagnostics = false,
