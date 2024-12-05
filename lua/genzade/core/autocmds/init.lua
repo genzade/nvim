@@ -149,3 +149,26 @@ autocmd('FileType', {
   end,
   desc = 'Quickfix tweaks',
 })
+
+local numbertoggle_augroup = augroup('numbertoggle')
+
+autocmd({ 'BufEnter', 'FocusGained', 'InsertLeave', 'CmdlineLeave', 'WinEnter' }, {
+  pattern = '*',
+  group = numbertoggle_augroup,
+  callback = function()
+    if vim.o.nu and vim.api.nvim_get_mode().mode ~= 'i' then
+      vim.opt.relativenumber = true
+    end
+  end,
+})
+
+autocmd({ 'BufLeave', 'FocusLost', 'InsertEnter', 'CmdlineEnter', 'WinLeave' }, {
+  pattern = '*',
+  group = numbertoggle_augroup,
+  callback = function()
+    if vim.o.nu then
+      vim.opt.relativenumber = false
+      vim.cmd('redraw')
+    end
+  end,
+})
