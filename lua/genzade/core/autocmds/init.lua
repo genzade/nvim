@@ -168,7 +168,7 @@ autocmd({ 'BufLeave', 'FocusLost', 'InsertEnter', 'CmdlineEnter', 'WinLeave' }, 
   callback = function()
     if vim.o.nu then
       vim.opt.relativenumber = false
-      vim.cmd('redraw')
+      vim.cmd.redraw()
     end
   end,
 })
