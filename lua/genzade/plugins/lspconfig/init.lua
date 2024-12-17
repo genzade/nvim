@@ -160,10 +160,16 @@ return {
     {
       'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
       config = function()
-        require('lsp_lines').setup()
+        local ll_ok, lsp_lines = pcall(require, 'lsp_lines')
+        if not ll_ok then
+          return
+        end
+
+        lsp_lines.setup()
         -- Disable virtual_text since it's redundant due to lsp_lines.
         vim.diagnostic.config({
           virtual_text = false,
+          virtual_lines = { only_current_line = true },
         })
 
         -- -- https://github.com/folke/lazy.nvim/issues/620
