@@ -160,6 +160,15 @@ M.servers = function()
       --   completion = true,
       --   formatting = true,
       -- },
+      -- settings = {
+      --   autoformat = true,
+      --   completion = true,
+      --   diagnostic = false,
+      --   folding = true,
+      --   references = true,
+      --   rename = true,
+      --   symbols = true,
+      -- },
     },
     tailwindcss = {
       init_options = {
