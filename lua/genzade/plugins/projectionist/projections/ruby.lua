@@ -2,6 +2,7 @@ local multiline_str = require('genzade.core.utils').sanitize_str
 
 M = {}
 
+-- TODO: Add more projections for work
 M.ruby_generic = {
   ['lib/*.rb'] = { alternate = 'spec/lib/{}_spec.rb', type = 'source' },
   ['spec/lib/*_spec.rb'] = {

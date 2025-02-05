@@ -44,6 +44,8 @@ local config = function()
     return
   end
 
+  -- TODO: remap `close buffer` in telescope buffers
+  -- https://medium.com/@jogarcia/delete-buffers-on-telescope-21cc4cf61b63
   wk.add({
     {
       mode = { 'n' },
