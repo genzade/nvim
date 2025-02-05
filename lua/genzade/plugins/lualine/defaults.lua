@@ -51,7 +51,7 @@ M.diagnostics = {
   sources = { 'nvim_diagnostic', 'nvim_lsp' },
   sections = { 'error', 'warn', 'info', 'hint' },
   update_in_insert = false, -- Update diagnostics in insert mode.
-  always_visible = true, -- Show diagnostics even if there are none.
+  always_visible = false,
   padding = padding,
 }
 
