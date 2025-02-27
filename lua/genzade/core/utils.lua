@@ -1,10 +1,7 @@
 M = {}
 
 M.create_augroup = function(name, opts)
-  return vim.api.nvim_create_augroup(
-    'genzade_' .. name,
-    { clear = opts and opts.clear or true }
-  )
+  return vim.api.nvim_create_augroup('genzade_' .. name, { clear = opts and opts.clear or true })
 end
 
 M.create_autocmd = function(...)
