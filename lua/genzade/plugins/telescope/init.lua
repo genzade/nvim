@@ -1,9 +1,9 @@
 local config = function()
   local has_telescope, telescope = pcall(require, 'telescope')
   if not has_telescope then
-    print('telescope not ok ..................................')
     return
   end
+
   telescope.setup({
     defaults = {
       prompt_prefix = '$ ',
@@ -15,6 +15,15 @@ local config = function()
         '--line-number',
         '--column',
         '--smart-case',
+      },
+    },
+    pickers = {
+      buffers = {
+        mappings = {
+          n = {
+            ['d'] = require('telescope.actions').delete_buffer,
+          },
+        },
       },
     },
     extensions = {
@@ -35,7 +44,6 @@ local config = function()
 
   local has_tbuiltin, tbuiltin = pcall(require, 'telescope.builtin')
   if not has_tbuiltin then
-    print('telescope builtin not ok ...........................')
     return
   end
 
@@ -50,7 +58,6 @@ local config = function()
     {
       mode = { 'n' },
       { '<Leader>f', group = 'Telescope' },
-      { '<Leader>fB', tbuiltin.buffers, desc = 'Find opened [B]uffers' },
       {
         '<Leader>fb',
         function()

@@ -59,17 +59,6 @@ map('n', 'cP', function()
   copy_path(true)
 end, { desc = '[C]opy full file [P]ath to clipboard' })
 
--- close all buffers but current
-map('n', '<leader>bd', function()
-  -- vim.cmd('bd|e#')
-  local bufs = vim.api.nvim_list_bufs()
-  for _, buf in ipairs(bufs) do
-    if buf ~= vim.api.nvim_get_current_buf() then
-      vim.api.nvim_buf_delete(buf, { force = true })
-    end
-  end
-end, { desc = '[B]uffer [D]elete' })
-
 -- keep cursor position centred
 map('n', 'n', 'nzzzv')
 map('n', 'N', 'Nzzzv')
