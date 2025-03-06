@@ -172,3 +172,13 @@ autocmd({ 'BufLeave', 'FocusLost', 'InsertEnter', 'CmdlineEnter', 'WinLeave' }, 
     end
   end,
 })
+
+autocmd('WinEnter', {
+  desc = 'Resize windows back to default when moving from a zoomed window',
+  callback = function()
+    if vim.t.toggle_zoom then
+      vim.cmd.wincmd('=')
+      vim.t.toggle_zoom = false
+    end
+  end,
+})
