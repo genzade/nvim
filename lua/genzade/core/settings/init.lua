@@ -7,6 +7,7 @@ local wo = vim.wo
 local set_var = vim.api.nvim_set_var
 
 g.base16colorspace = 256
+g.completeopt = 'menu,menuone,noselect,noinsert,popup'
 
 o.splitbelow = true
 o.splitright = true
