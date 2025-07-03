@@ -374,6 +374,66 @@ M.ruby_on_rails = {
     alternate = 'rubocop/cop/{}.rb',
     type = 'test',
   },
+  ['app/operations/*.rb'] = {
+    alternate = 'spec/operations/{}_spec.rb',
+    type = 'source',
+  },
+  ['spec/operations/*_spec.rb'] = {
+    alternate = 'app/operations/{}.rb',
+    type = 'spec',
+    template = {
+      multiline_str([[
+        # frozen_string_literal: true
+
+        require 'rails_helper'
+
+        RSpec.describe {camelcase|capitalize|colons} do
+          it 'does something' do
+            expect(true).to eq(false)
+          end
+        end]]),
+    },
+  },
+  ['app/presenters/*.rb'] = {
+    alternate = 'spec/presenters/{}_spec.rb',
+    type = 'source',
+  },
+  ['spec/presenters/*_spec.rb'] = {
+    alternate = 'app/presenters/{}.rb',
+    type = 'spec',
+    template = {
+      multiline_str([[
+        # frozen_string_literal: true
+
+        require 'rails_helper'
+
+        RSpec.describe {camelcase|capitalize|colons} do
+          it 'does something' do
+            expect(true).to eq(false)
+          end
+        end]]),
+    },
+  },
+  ['app/resources/*.rb'] = {
+    alternate = 'spec/resources/{}_spec.rb',
+    type = 'source',
+  },
+  ['spec/resources/*_spec.rb'] = {
+    alternate = 'app/resources/{}.rb',
+    type = 'spec',
+    template = {
+      multiline_str([[
+        # frozen_string_literal: true
+
+        require 'rails_helper'
+
+        RSpec.describe {camelcase|capitalize|colons}, type: :resource do
+          it 'does something' do
+            expect(true).to eq(false)
+          end
+        end]]),
+    },
+  },
 }
 
 return M
