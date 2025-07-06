@@ -45,6 +45,17 @@ local config = function()
   telescope.load_extension('notify')
   telescope.load_extension('neoclip')
 
+  local highlights = {
+    TelescopeBorder = { link = 'TelescopeNormal' },
+    TelescopePromptBorder = { link = 'TelescopeNormal' },
+    TelescopeResultsBorder = { link = 'TelescopeNormal' },
+    TelescopePreviewBorder = { link = 'TelescopeNormal' },
+  }
+
+  for group, hl in pairs(highlights) do
+    vim.api.nvim_set_hl(0, group, hl)
+  end
+
   local has_tbuiltin, tbuiltin = pcall(require, 'telescope.builtin')
   if not has_tbuiltin then
     return
