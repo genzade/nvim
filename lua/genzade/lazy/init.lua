@@ -30,6 +30,7 @@ M.lazy_setup = function()
     ui = {
       border = 'rounded',
     },
+    install = { colorscheme = { 'sonokai' } },
   })
 end
 
