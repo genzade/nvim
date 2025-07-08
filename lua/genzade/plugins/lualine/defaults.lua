@@ -9,7 +9,7 @@ M.options = {
   section_separators = '',
   component_separators = '',
   globalstatus = true,
-  theme = 'base16',
+  theme = 'sonokai',
 }
 
 -- local vim_icons = {

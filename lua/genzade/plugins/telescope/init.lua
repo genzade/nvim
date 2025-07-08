@@ -25,6 +25,9 @@ local config = function()
           },
         },
       },
+      colorscheme = {
+        enable_preview = true,
+      },
     },
     extensions = {
       fzf = {

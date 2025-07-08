@@ -38,8 +38,6 @@ local config = function()
     },
     { '<C-t>', fterm.toggle, desc = 'Toggle built in [T]erminal', mode = 't' },
   })
-
-  vim.api.nvim_set_hl(0, 'VertSplit', { bg = 'NONE' })
 end
 
 return {

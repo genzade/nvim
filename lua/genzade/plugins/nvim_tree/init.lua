@@ -4,29 +4,6 @@ local config = function()
     return
   end
 
-  local utils = require('genzade.core.utils')
-  local augroup = utils.create_augroup
-  local autocmd = utils.create_autocmd
-  local set_hl = vim.api.nvim_set_hl
-
-  -- TODO: possibly move to after folder
-  autocmd('Colorscheme', {
-    pattern = '*',
-    group = augroup('nvimtree_colorscheme', { clear = false }),
-    callback = function()
-      set_hl(0, 'NvimTreeNormal', { bg = '#21252B', fg = '#9da5b3' })
-      set_hl(0, 'NvimTreeBg', { bg = '#2B4252', fg = nil })
-    end,
-  })
-
-  autocmd('FileType', {
-    pattern = 'NvimTree',
-    group = augroup('nvimtree_filetype', { clear = false }),
-    callback = function()
-      vim.api.nvim_win_set_option(0, 'winhighlight', 'Normal:NvimTreeBg')
-    end,
-  })
-
   local wk_ok, wk = pcall(require, 'which-key')
   if not wk_ok then
     return
