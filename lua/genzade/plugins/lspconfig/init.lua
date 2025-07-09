@@ -111,7 +111,7 @@ local config = function()
     'haml-lint', -- Used to lint HAML files
     'hadolint', -- Used to lint Dockerfiles
     'jsonlint', -- Used to lint JSON files
-    'prettierd', -- Used to format JavaScript, TypeScript, JSON, CSS, SCSS, HTML, and Markdown files
+    'standardjs', -- Used to format JavaScript, TypeScript, JSON, CSS, SCSS, HTML, and Markdown files
     'rubocop', -- Used to lint Ruby files -- NOTE: Already included in asdf/.default-gems
     'markdownlint', -- Used to lint Markdown files
     'shellcheck', -- Used to lint shell scripts

@@ -16,7 +16,7 @@ local config = function()
       -- prettierd
       css = { 'prettierd' },
       html = { 'prettierd' },
-      javascript = { 'prettierd' },
+      javascript = { 'standardjs' },
       json = { 'prettierd' },
       markdown = { 'prettierd' },
       scss = { 'prettierd' },
