@@ -1,8 +1,8 @@
 local M = {}
 
 M.keys = function()
-  local mini_files_ok, mini_files = pcall(require, 'mini.files')
-  if not mini_files_ok then
+  local minifiles_ok, minifiles = pcall(require, 'mini.files')
+  if not minifiles_ok then
     return
   end
 
@@ -10,18 +10,46 @@ M.keys = function()
     {
       '<leader>o',
       function()
-        mini_files.open(vim.api.nvim_buf_get_name(0), true)
+        minifiles.open(vim.api.nvim_buf_get_name(0), true)
       end,
       desc = '[O]pen mini.files explorer (Directory of Current File)',
     },
     {
       '<leader>O',
       function()
-        mini_files.open(vim.uv.cwd(), true)
+        minifiles.open(vim.uv.cwd(), true)
       end,
-      desc = 'Open mini.files explorer (cwd)',
+      desc = '[O]pen mini.files explorer (cwd)',
     },
   }
+end
+
+M.map_split = function(buf_id, lhs, direction, close_on_file)
+  local function rhs()
+    local minifiles_ok, minifiles = pcall(require, 'mini.files')
+    if not minifiles_ok then
+      return
+    end
+
+    local fs_entry = minifiles.get_fs_entry()
+
+    if fs_entry == nil or fs_entry.fs_type ~= 'file' then
+      return
+    end
+
+    local cur_target = minifiles.get_explorer_state().target_window
+    local new_target = vim.api.nvim_win_call(cur_target, function()
+      vim.cmd(direction .. ' split')
+      return vim.api.nvim_get_current_win()
+    end)
+
+    minifiles.set_target_window(new_target)
+    minifiles.go_in({ close_on_file = close_on_file })
+  end
+
+  local desc = 'Open in ' .. direction .. (close_on_file and ' and close' or '')
+
+  vim.keymap.set('n', lhs, rhs, { buffer = buf_id, desc = desc })
 end
 
 M.opts = function()
