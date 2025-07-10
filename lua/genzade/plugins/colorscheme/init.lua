@@ -22,7 +22,7 @@ local config = function()
 
   -- sonokai_style can be one of 'default', 'atlantis', 'andromeda', 'shusia', 'maia', 'espresso'
   vim.g.sonokai_style = 'default'
-  vim.g.sonokai_enable_italic = true
+  vim.g.sonokai_enable_italic = 0
   vim.g.sonokai_transparent_background = 1
   vim.g.sonokai_better_performance = 1
 
