@@ -34,9 +34,9 @@ M.opts = function()
       -- Width of focused window
       width_focus = 50,
       -- Width of non-focused window
-      width_nofocus = 15,
+      width_nofocus = 50,
       -- Width of preview window
-      width_preview = 25,
+      width_preview = 75,
     },
     options = {
       -- Whether to use for editing directories
