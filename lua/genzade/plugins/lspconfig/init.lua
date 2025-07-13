@@ -64,16 +64,12 @@ local config = function()
     vim.diagnostic.config({ signs = { text = diagnostic_signs } })
   end
 
-  local cmp_nvim_lsp_ok, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
-  if not cmp_nvim_lsp_ok then
+  local blink_cmp_ok, blink_cmp = pcall(require, 'blink.cmp')
+  if not blink_cmp_ok then
     return
   end
 
-  local capabilities = vim.tbl_deep_extend(
-    'force',
-    vim.lsp.protocol.make_client_capabilities(),
-    cmp_nvim_lsp.default_capabilities()
-  )
+  local capabilities = blink_cmp.get_lsp_capabilities(vim.lsp.protocol.make_client_capabilities())
 
   local lspc_ok, lspconfig = pcall(require, 'lspconfig')
   if not lspc_ok then
@@ -155,7 +151,7 @@ return {
     'williamboman/mason-lspconfig.nvim',
     'WhoIsSethDaniel/mason-tool-installer.nvim',
     { 'j-hui/fidget.nvim', opts = {} },
-    'hrsh7th/cmp-nvim-lsp',
+    'saghen/blink.cmp',
     'b0o/schemastore.nvim',
     {
       'https://git.sr.ht/~whynothugo/lsp_lines.nvim',

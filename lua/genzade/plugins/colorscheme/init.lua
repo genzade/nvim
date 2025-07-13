@@ -14,6 +14,18 @@ local config = function()
       set_hl('NormalFloat', palette.fg, palette.none)
       set_hl('FloatBorder', palette.none, palette.none)
       set_hl('FloatTitle', palette.red, palette.none, 'bold')
+
+      set_hl('Visual', palette.none, palette.grey_dim)
+      set_hl('IncSearch', palette.bg0, palette.yellow)
+      set_hl('Search', palette.none, palette.diff_yellow)
+
+      set_hl('BlinkCmpMenu', palette.fg, palette.none)
+      set_hl('BlinkCmpMenuBorder', palette.green, palette.none)
+      set_hl('BlinkCmpMenuSelection', palette.bg0, palette.yellow, 'bold')
+      set_hl('BlinkCmpDocBorder', palette.green, palette.none)
+      set_hl('BlinkCmpDoc', palette.none, palette.none, 'italic')
+      set_hl('BlinkCmpDocSeparator', palette.green, palette.none)
+      set_hl('BlinkCmpLabelDescription', palette.blue, palette.none, 'italic')
     end,
   })
 
