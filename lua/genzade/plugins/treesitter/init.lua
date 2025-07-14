@@ -11,7 +11,7 @@ local config = function()
       additional_vim_regex_highlighting = false,
     },
     indent = { enable = true },
-    ignore_install = { "norg" },
+    ignore_install = { 'norg', 'ipkg' },
     -- needs testing post migration
     textobjects = {
       lsp_interop = {
