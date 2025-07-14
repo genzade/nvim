@@ -10,7 +10,11 @@ M.keys = function()
     {
       '<leader>o',
       function()
-        minifiles.open(vim.api.nvim_buf_get_name(0), true)
+        local file = vim.api.nvim_buf_get_name(0)
+        local file_exists = vim.fn.filereadable(file) ~= 0
+
+        minifiles.open(file_exists and file or nil)
+        minifiles.reveal_cwd()
       end,
       desc = '[O]pen mini.files explorer (Directory of Current File)',
     },
