@@ -29,20 +29,28 @@ local function remove_bindings()
   vim.cmd('silent! write') -- Save the file silently
 end
 
-local opts = { silent = true, noremap = true }
-vim.keymap.set(
-  'n',
-  '<Leader>k',
-  add_binding,
-  { desc = 'Add pry breakpoint', buffer = vim.api.nvim_get_current_buf() }
-)
-vim.keymap.set(
-  'n',
-  '<Leader>K',
-  remove_bindings,
-  opts,
-  { desc = 'Remove all pry breakpoint', buffer = vim.api.nvim_get_current_buf() }
-)
+local wk_ok, wk = pcall(require, 'which-key')
+if not wk_ok then
+  return
+end
+
+wk.add({
+  {
+    mode = { 'n' },
+    {
+      '<Leader>k',
+      add_binding,
+      desc = 'Add pry breakpoint',
+      remap = false,
+    },
+    {
+      '<Leader>K',
+      remove_bindings,
+      desc = 'Remove all pry breakpoint',
+      remap = false,
+    },
+  },
+})
 
 ----Surround
 local ok, nvim_surround = pcall(require, 'nvim-surround')
