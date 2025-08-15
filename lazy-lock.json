@@ -4,6 +4,7 @@
   "LuaSnip": { "branch": "master", "commit": "458560534a73f7f8d7a11a146c801db00b081df0" },
   "barbar.nvim": { "branch": "master", "commit": "3a74402bdf04745a762de83d5c5e88e3e9b0e2e0" },
   "blink.cmp": { "branch": "main", "commit": "3536ce464e82843b00c76718d9bfe1994647d686" },
+  "blame.nvim": { "branch": "main", "commit": "b87b8c820e4cec06fbbd2f946b7b35c45906ee0c" },
   "conform.nvim": { "branch": "master", "commit": "973f3cb73887d510321653044791d7937c7ec0fa" },
   "copilot.lua": { "branch": "master", "commit": "3680bebcc95dfd6c7509466367e66f6dc64a5140" },
   "fidget.nvim": { "branch": "main", "commit": "d9ba6b7bfe29b3119a610892af67602641da778e" },
