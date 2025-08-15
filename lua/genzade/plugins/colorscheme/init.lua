@@ -17,7 +17,7 @@ local config = function()
 
       set_hl('Visual', palette.none, palette.grey_dim)
       set_hl('IncSearch', palette.bg0, palette.yellow)
-      set_hl('Search', palette.none, palette.diff_yellow)
+      set_hl('Search', palette.none, palette.bg_yellow)
 
       set_hl('BlinkCmpMenu', palette.fg, palette.none)
       set_hl('BlinkCmpMenuBorder', palette.green, palette.none)
