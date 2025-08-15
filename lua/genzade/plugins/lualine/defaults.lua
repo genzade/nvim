@@ -103,26 +103,17 @@ M.encoding = {
 }
 
 M.lsp_status = {
-  function()
-    local clients = vim.lsp.get_active_clients()
-    local msg = 'No Active Lsp'
-    local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
-    local lsp_icon = '  '
-
-    if next(clients) == nil then
-      return msg
-    end
-
-    for _, client in ipairs(clients) do
-      local filetypes = client.config.filetypes
-
-      if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
-        return lsp_icon .. client.name
-      end
-    end
-
-    return lsp_icon .. msg
-  end,
+  'lsp_status',
+  icon = '  ',
+  symbols = {
+    -- Standard unicode symbols to cycle through for LSP progress:
+    spinner = { '⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏' },
+    -- Standard unicode symbol for when LSP is done:
+    done = '✓',
+    -- Delimiter inserted between LSP names:
+    separator = ' ',
+  },
+  ignore_lsp = {},
   padding = padding,
 }
 
