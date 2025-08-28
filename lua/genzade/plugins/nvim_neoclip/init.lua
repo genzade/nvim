@@ -4,7 +4,9 @@ local config = function()
     return
   end
 
-  neoclip.setup({})
+  neoclip.setup({
+    initial_mode = 'normal',
+  })
 end
 
 return {

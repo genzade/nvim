@@ -1,3 +1,4 @@
+-- https://github.com/HRRood/nvim/blob/463d454c90374b2bcf9b6014de1cd5180711cc03/lua/plugins/fuzzy-finder.lua#L397
 local config = function()
   local has_telescope, telescope = pcall(require, 'telescope')
   if not has_telescope then
@@ -24,9 +25,30 @@ local config = function()
             ['d'] = require('telescope.actions').delete_buffer,
           },
         },
+        initial_mode = 'normal',
+        sort_mru = true,
+        ignore_current_buffer = true,
       },
       colorscheme = {
         enable_preview = true,
+      },
+      current_buffer_fuzzy_find = {
+        theme = 'ivy',
+      },
+      git_status = {
+        initial_mode = 'normal',
+      },
+      grep_string = {
+        initial_mode = 'normal',
+      },
+      marks = {
+        initial_mode = 'normal',
+      },
+      registers = {
+        initial_mode = 'normal',
+      },
+      resume = {
+        initial_mode = 'normal',
       },
     },
     extensions = {
@@ -66,24 +88,11 @@ local config = function()
     return
   end
 
-  -- TODO: remap `close buffer` in telescope buffers
-  -- https://medium.com/@jogarcia/delete-buffers-on-telescope-21cc4cf61b63
   wk.add({
     {
       mode = { 'n' },
       { '<Leader>f', group = 'Telescope' },
-      {
-        '<Leader>fb',
-        function()
-          local ok, theme = pcall(require, 'telescope.themes')
-          if not ok then
-            return
-          end
-
-          tbuiltin.current_buffer_fuzzy_find(theme.get_ivy())
-        end,
-        desc = 'Search current [B]uffer',
-      },
+      { '<Leader>fb', tbuiltin.current_buffer_fuzzy_find, desc = 'Search current [B]uffer' },
       { '<Leader>fC', tbuiltin.command_history, desc = 'Search [C]ommand history' },
       { '<Leader>fL', tbuiltin.resume, desc = 'Resume [L]ast search' },
       { '<Leader>fc', tbuiltin.commands, desc = 'Search available [C]ommands' },
@@ -97,7 +106,7 @@ local config = function()
       {
         '<Leader>fn',
         function()
-          telescope.extensions.notify.notify()
+          telescope.extensions.notify.notify({ initial_mode = 'normal' })
         end,
         desc = 'Search [N]otification',
       },
@@ -129,7 +138,7 @@ local config = function()
             text = string.gsub(text, '\n', '')
 
             if string.len(text) == 0 then
-              text = nil
+              text = ''
             end
 
             return text
