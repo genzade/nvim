@@ -150,12 +150,21 @@ M.ruby_on_rails = {
     },
   },
   ['app/views/*.html.erb'] = {
-    alternate = 'spec/views/{}.html.erb_spec.rb',
+    alternate = { 'spec/views/{}.html.erb_spec.rb', 'spec/views/{}.html.haml_spec.rb' },
     type = 'source',
+  },
+  ['spec/views/*.html.haml_spec.rb'] = {
+    alternate = 'app/views/{}.html.haml',
+    type = 'spec',
+  },
+  ['spec/views/*.html.erb_spec.rb'] = {
+    alternate = 'app/views/{}.html.erb',
+    type = 'spec',
   },
   ['app/components/*.rb'] = {
     alternate = {
       'app/components/{}.html.erb',
+      'app/components/{}.html.haml',
       'spec/components/{}_spec.rb',
     },
     type = 'component',
@@ -164,8 +173,16 @@ M.ruby_on_rails = {
     alternate = { 'spec/components/{}_spec.rb', 'app/components/{}.rb' },
     type = 'component',
   },
+  ['app/components/*.html.haml'] = {
+    alternate = { 'spec/components/{}_spec.rb', 'app/components/{}.rb' },
+    type = 'component',
+  },
   ['spec/components/*_spec.rb'] = {
-    alternate = { 'app/components/{}.rb', 'app/components/{}.html.erb' },
+    alternate = {
+      'app/components/{}.rb',
+      'app/components/{}.html.erb',
+      'app/components/{}.html.haml',
+    },
     type = 'component',
     template = {
       multiline_str([[
@@ -181,10 +198,6 @@ M.ruby_on_rails = {
           end
         end]]),
     },
-  },
-  ['spec/views/*.html.erb_spec.rb'] = {
-    alternate = 'app/views/{}.html.erb',
-    type = 'spec',
   },
   ['lib/*.rb'] = { alternate = 'spec/lib/{}_spec.rb', type = 'source' },
   ['spec/lib/*_spec.rb'] = {
