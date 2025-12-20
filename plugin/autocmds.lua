@@ -1,6 +1,10 @@
-local utils = require('genzade.core.utils')
-local augroup = utils.create_augroup
-local autocmd = utils.create_autocmd
+local augroup = function(name, opts)
+  return vim.api.nvim_create_augroup('genzade_' .. name, { clear = opts and opts.clear or true })
+end
+
+local autocmd = function(...)
+  return vim.api.nvim_create_autocmd(...)
+end
 
 -- Highlight when yanking (copying) text
 autocmd('TextYankPost', {
@@ -42,6 +46,7 @@ autocmd('FileType', {
     'help',
     'notify',
     'qf',
+    'notes',
   },
   callback = function(event)
     vim.bo[event.buf].buflisted = false
@@ -93,12 +98,14 @@ local function delete_qf_items()
   vim.fn.cursor(start_idx, 1)
 end
 
+-- TODO: consider stevearc/quicker.nvim plugin for more advanced quickfix management
 autocmd('FileType', {
   group = augroup('custom'),
   pattern = 'qf',
   callback = function()
     -- Do not show quickfix in buffer lists.
     vim.api.nvim_buf_set_option(0, 'buflisted', false)
+    -- vim.api.nvim_set_option_value('buflisted', 'jsx', { buf = buf })
 
     -- Escape closes quickfix window.
     vim.keymap.set('n', '<ESC>', function()
