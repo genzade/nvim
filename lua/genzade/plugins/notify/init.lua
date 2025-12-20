@@ -37,6 +37,7 @@ local config = function()
       DEBUG = '',
       TRACE = '✎',
     },
+    top_down = false,
   })
 
   vim.lsp.handlers['window/showMessage'] = function(_, method, params, _)

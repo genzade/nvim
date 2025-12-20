@@ -6,10 +6,12 @@ local padding = {
 }
 
 M.options = {
+  icons_enabled = true,
   section_separators = '',
   component_separators = '',
   globalstatus = true,
-  theme = 'sonokai',
+  -- theme = 'sonokai',
+  theme = 'auto',
 }
 
 -- local vim_icons = {
@@ -25,25 +27,65 @@ M.mode = {
   fmt = function(str)
     return str:sub(1, 1)
   end,
+  color = function()
+    local mode_color = {
+      n = '#80A7EA',
+      i = '#A6D189',
+      v = '#EED49F',
+      [''] = '#EED49F',
+      V = '#EED49F',
+      c = '#FF9CAC',
+      no = '#80A7EA',
+      s = '#FF9CAC',
+      S = '#FF9CAC',
+      [''] = '#FF9CAC',
+      ic = '#A6D189',
+      R = '#FF9CAC',
+      Rv = '#FF9CAC',
+      cv = '#FF9CAC',
+      ce = '#FF9CAC',
+      r = '#FF9CAC',
+      rm = '#FF9CAC',
+      ['r?'] = '#FF9CAC',
+      ['!'] = '#FF9CAC',
+    }
+    return { bg = 'NONE', fg = mode_color[vim.fn.mode()] or 'LualineNormal', gui = 'bold' }
+  end,
+  -- icon = '',
 }
 
 M.branch = {
   'branch',
+  color = { bg = 'NONE', gui = 'bold', fg = '#A6D189' },
+  -- icon = '',
+  icon = '',
 }
 
 M.diff = {
   'diff',
-  -- uncomment and modify to use differenct symbols
-  -- symbols = {
-  --   added = '+',
-  --   modified = '~',
-  --   removed = '-',
-  -- },
+  colored = true,
+  color = { bg = 'NONE' },
+  padding = padding,
+  -- symbols = { added = ' ', modified = '󰝤 ', removed = ' ' },
+  symbols = { added = ' ', modified = ' ', removed = ' ' },
 }
+
+-- M.diff = {
+--   'diff',
+--   color = { bg = 'NONE', fg = '#a6e3a1' },
+--   -- uncomment and modify to use differenct symbols
+--   -- symbols = {
+--   --   added = '+',
+--   --   modified = '~',
+--   --   removed = '-',
+--   -- },
+-- }
 
 M.filename = {
   'filename',
-  padding = padding,
+  file_status = true,
+  symbols = { readonly = '󰌾', modified = '●', directory = '' },
+  color = { bg = 'NONE', fg = '#F39660' },
 }
 
 M.diagnostics = {
@@ -52,6 +94,9 @@ M.diagnostics = {
   sections = { 'error', 'warn', 'info', 'hint' },
   update_in_insert = false, -- Update diagnostics in insert mode.
   always_visible = false,
+  -- color = { bg = 'NONE' },
+  color = { bg = '282C33', fg = 'abb2bf' },
+  symbols = { error = ' ', warn = ' ', info = ' ', hint = ' ' },
   padding = padding,
 }
 
@@ -65,6 +110,7 @@ M.macro_recording = {
       return ' ' .. recording_register
     end
   end,
+  color = { bg = 'NONE', fg = '#F7768E' },
   padding = padding,
 }
 
@@ -104,7 +150,7 @@ M.encoding = {
 
 M.lsp_status = {
   'lsp_status',
-  icon = '  ',
+  -- icon = '  ',
   symbols = {
     -- Standard unicode symbols to cycle through for LSP progress:
     spinner = { '⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏' },
@@ -112,51 +158,76 @@ M.lsp_status = {
     done = '✓',
     -- Delimiter inserted between LSP names:
     separator = ' ',
+    -- color = { bg = 'NONE' },
   },
-  ignore_lsp = {},
-  padding = padding,
+  color = { bg = 'NONE', fg = '#b39df3' },
+  -- color = { fg = '#b39df3' },
+  ignore_lsp = { 'copilot' },
+  icon = '󰒋',
+  -- icon = '',
+  -- padding = padding,
 }
 
 M.filetype = {
   'filetype',
-  padding = padding,
+  icon_only = true,
+  color = { bg = 'NONE' },
+  -- padding = padding,
 }
 
 M.progress = {
   'progress',
-  padding = padding,
+  -- color = { bg = 'NONE' },
+  color = { bg = '282C33', fg = 'abb2bf' },
+  -- padding = padding,
 }
 
 M.location = {
   'location',
-  padding = padding,
+  -- color = { fg = 'NONE' },
+  -- color = { bg = 'NONE' },
+  color = { bg = '282C33', fg = 'abb2bf' },
+  -- padding = padding,
 }
 
 M.scrollbar = {
   function()
     local current_line = vim.fn.line('.')
     local total_lines = vim.fn.line('$')
-    local icon = ''
+    -- local icon = ''
+    -- local chars = {
+    --   icon .. ' ██',
+    --   icon .. ' ▇▇',
+    --   icon .. ' ▆▆',
+    --   icon .. ' ▅▅',
+    --   icon .. ' ▄▄',
+    --   icon .. ' ▃▃',
+    --   icon .. ' ▂▂',
+    --   icon .. ' ▁▁',
+    --   icon .. ' __',
+    -- }
     local chars = {
-      icon .. ' ██',
-      icon .. ' ▇▇',
-      icon .. ' ▆▆',
-      icon .. ' ▅▅',
-      icon .. ' ▄▄',
-      icon .. ' ▃▃',
-      icon .. ' ▂▂',
-      icon .. ' ▁▁',
-      icon .. ' __',
+      '██',
+      '▇▇',
+      '▆▆',
+      '▅▅',
+      '▄▄',
+      '▃▃',
+      '▂▂',
+      '▁▁',
     }
     local line_ratio = current_line / total_lines
     local index = math.ceil(line_ratio * #chars)
 
     return chars[index]
   end,
+  -- color = { bg = 'NONE' },
+  color = { bg = '282C33', fg = 'abb2bf' },
 }
 
 M.extensions = {
   'fzf',
+  'lazy',
   'man',
   'nvim-tree',
   'quickfix',
