@@ -5,9 +5,28 @@ local config = function()
     return
   end
 
+  local fb_actions = require('telescope').extensions.file_browser.actions
+  local actions = require('telescope.actions')
+
   telescope.setup({
     defaults = {
-      prompt_prefix = '$ ',
+      layout_config = {
+        width = 0.95,
+        height = 0.95,
+        preview_cutoff = 120,
+        preview_width = 0.65,
+        horizontal = {
+          preview_cutoff = 120,
+          preview_width = 0.6,
+        },
+        vertical = {
+          preview_cutoff = 40,
+        },
+        flex = {
+          flip_columns = 150,
+        },
+      },
+      prompt_prefix = '   ',
       vimgrep_arguments = {
         'rg',
         '--color=never',
@@ -33,7 +52,15 @@ local config = function()
         enable_preview = true,
       },
       current_buffer_fuzzy_find = {
-        theme = 'ivy',
+        theme = 'dropdown',
+        layout_strategy = 'horizontal',
+        previewer = false,
+        layout_config = {
+          width = 0.95,
+          height = 0.95,
+          prompt_position = 'top',
+        },
+        prompt_prefix = ' 󰺮  ',
       },
       git_status = {
         initial_mode = 'normal',
@@ -64,6 +91,53 @@ local config = function()
         -- case_mode = "smart_case", -- or "ignore_case" or "respect_case"
         -- the default case_mode is "smart_case"
       },
+      file_browser = {
+        -- theme = 'dropdown',
+        -- theme = 'ivy',
+        initial_mode = 'normal',
+        grouped = true,
+        select_buffer = true,
+        hidden = { file_browser = true, folder_browser = true },
+        hide_parent_dir = true,
+        git_status = true,
+        quiet = true,
+        mappings = {
+          ['i'] = {
+            ['<A-c>'] = false,
+            ['<C-CR>'] = fb_actions.create_from_prompt,
+            ['<A-r>'] = false,
+            ['<A-m>'] = false,
+            ['<A-y>'] = false,
+            ['<A-d>'] = false,
+            ['<C-o>'] = false,
+            ['<C-g>'] = false,
+            ['<C-e>'] = false,
+            ['<C-w>'] = false,
+            ['<C-t>'] = false,
+            ['<C-f>'] = fb_actions.toggle_browser,
+            ['<C-h>'] = false,
+            ['<C-s>'] = actions.select_vertical,
+            ['<bs>'] = fb_actions.backspace,
+          },
+          ['n'] = {
+            ['c'] = fb_actions.create,
+            ['r'] = fb_actions.rename,
+            ['m'] = fb_actions.move,
+            ['y'] = fb_actions.copy,
+            ['d'] = fb_actions.remove,
+            ['o'] = fb_actions.open,
+            ['g'] = false,
+            ['~'] = fb_actions.goto_home_dir,
+            ['e'] = false,
+            ['w'] = fb_actions.goto_cwd,
+            ['f'] = fb_actions.toggle_browser,
+            ['.'] = fb_actions.toggle_hidden,
+            ['h'] = false,
+            ['s'] = actions.select_vertical,
+            ['<bs>'] = fb_actions.goto_parent_dir,
+          },
+        },
+      },
     },
   })
   -- To get fzf loaded and working with telescope, you need to call
@@ -71,17 +145,7 @@ local config = function()
   telescope.load_extension('fzf')
   telescope.load_extension('notify')
   telescope.load_extension('neoclip')
-
-  local highlights = {
-    TelescopeBorder = { link = 'TelescopeNormal' },
-    TelescopePromptBorder = { link = 'TelescopeNormal' },
-    TelescopeResultsBorder = { link = 'TelescopeNormal' },
-    TelescopePreviewBorder = { link = 'TelescopeNormal' },
-  }
-
-  for group, hl in pairs(highlights) do
-    vim.api.nvim_set_hl(0, group, hl)
-  end
+  telescope.load_extension('file_browser')
   telescope.load_extension('ftm')
 
   local has_tbuiltin, tbuiltin = pcall(require, 'telescope.builtin')
@@ -149,6 +213,7 @@ return {
     'nvim-lua/plenary.nvim',
     { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
     'rcarriga/nvim-notify',
+    'nvim-telescope/telescope-file-browser.nvim',
     'genzade/ftm.nvim',
   },
   event = 'VimEnter',

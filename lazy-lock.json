@@ -47,6 +47,7 @@
   "sonokai": { "branch": "master", "commit": "5baf26496047788dc000e9287e5ceb7420b2f42e" },
   "startup.nvim": { "branch": "master", "commit": "9ca3b9a55f2f2196ef90b39a52029b46fdde5226" },
   "sudoku.nvim": { "branch": "main", "commit": "c7dfd2f9fc7108ef3832a02f40a76ab1b2d940ce" },
+  "telescope-file-browser.nvim": { "branch": "master", "commit": "3610dc7dc91f06aa98b11dca5cc30dfa98626b7e" },
   "telescope-fzf-native.nvim": { "branch": "main", "commit": "1f08ed60cafc8f6168b72b80be2b2ea149813e55" },
   "telescope.nvim": { "branch": "master", "commit": "b4da76be54691e854d3e0e02c36b0245f945c2c7" },
   "vim-autoswap": { "branch": "master", "commit": "e587e4b14a605d8921942ba65a37583813289272" },
