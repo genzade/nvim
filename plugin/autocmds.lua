@@ -1,33 +1,25 @@
-local augroup = function(name, opts)
-  return vim.api.nvim_create_augroup('genzade_' .. name, { clear = opts and opts.clear or true })
-end
-
-local autocmd = function(...)
-  return vim.api.nvim_create_autocmd(...)
-end
-
 -- Highlight when yanking (copying) text
-autocmd('TextYankPost', {
+vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',
-  group = augroup('highlight_yank'),
+  group = genzade.augroup('highlight_yank'),
   callback = function()
     vim.highlight.on_yank()
   end,
 })
 
 -- Run resize methods when window size is changed
-autocmd('VimResized', {
+vim.api.nvim_create_autocmd('VimResized', {
   desc = 'Run resize methods when window size is changes',
-  group = augroup('resize_window'),
+  group = genzade.augroup('resize_window'),
   callback = function()
     vim.cmd.wincmd('=')
   end,
 })
 
 -- go to last loc when opening a buffer
-autocmd('BufReadPost', {
+vim.api.nvim_create_autocmd('BufReadPost', {
   desc = 'Go to last location when opening a buffer',
-  group = augroup('last_location'),
+  group = genzade.augroup('last_location'),
   callback = function()
     local mark = vim.api.nvim_buf_get_mark(0, '"')
     local lcount = vim.api.nvim_buf_line_count(0)
@@ -38,9 +30,9 @@ autocmd('BufReadPost', {
 })
 
 -- close some filetypes with `q`, add more filetypes as needed
-autocmd('FileType', {
+vim.api.nvim_create_autocmd('FileType', {
   desc = 'Close some filetypes with `q`',
-  group = augroup('quick_close'),
+  group = genzade.augroup('quick_close'),
   pattern = {
     'checkhealth',
     'help',
@@ -99,8 +91,8 @@ local function delete_qf_items()
 end
 
 -- TODO: consider stevearc/quicker.nvim plugin for more advanced quickfix management
-autocmd('FileType', {
-  group = augroup('custom'),
+vim.api.nvim_create_autocmd('FileType', {
+  group = genzade.augroup('custom'),
   pattern = 'qf',
   callback = function()
     -- Do not show quickfix in buffer lists.
@@ -119,30 +111,36 @@ autocmd('FileType', {
   desc = 'Quickfix tweaks',
 })
 
-local numbertoggle_augroup = augroup('numbertoggle')
+local numbertoggle_augroup = genzade.augroup('numbertoggle')
 
-autocmd({ 'BufEnter', 'FocusGained', 'InsertLeave', 'CmdlineLeave', 'WinEnter' }, {
-  pattern = '*',
-  group = numbertoggle_augroup,
-  callback = function()
-    if vim.o.nu and vim.api.nvim_get_mode().mode ~= 'i' then
-      vim.opt.relativenumber = true
-    end
-  end,
-})
+vim.api.nvim_create_autocmd(
+  { 'BufEnter', 'FocusGained', 'InsertLeave', 'CmdlineLeave', 'WinEnter' },
+  {
+    pattern = '*',
+    group = numbertoggle_augroup,
+    callback = function()
+      if vim.o.nu and vim.api.nvim_get_mode().mode ~= 'i' then
+        vim.opt.relativenumber = true
+      end
+    end,
+  }
+)
 
-autocmd({ 'BufLeave', 'FocusLost', 'InsertEnter', 'CmdlineEnter', 'WinLeave' }, {
-  pattern = '*',
-  group = numbertoggle_augroup,
-  callback = function()
-    if vim.o.nu then
-      vim.opt.relativenumber = false
-      vim.cmd.redraw()
-    end
-  end,
-})
+vim.api.nvim_create_autocmd(
+  { 'BufLeave', 'FocusLost', 'InsertEnter', 'CmdlineEnter', 'WinLeave' },
+  {
+    pattern = '*',
+    group = numbertoggle_augroup,
+    callback = function()
+      if vim.o.nu then
+        vim.opt.relativenumber = false
+        vim.cmd.redraw()
+      end
+    end,
+  }
+)
 
-autocmd('WinEnter', {
+vim.api.nvim_create_autocmd('WinEnter', {
   desc = 'Resize windows back to default when moving from a zoomed window',
   callback = function()
     if vim.t.toggle_zoom then

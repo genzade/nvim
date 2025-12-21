@@ -6,13 +6,9 @@ return {
   event = { 'BufReadPre', 'BufNewFile' },
   opts = defaults.opts,
   init = function()
-    local utils = require('genzade.core.utils')
-    local autocmd = utils.create_autocmd
-    local augroup = utils.create_augroup
-
-    autocmd('FileType', {
+    vim.api.nvim_create_autocmd('FileType', {
       desc = 'Disable mini.indentscope for certain file types',
-      group = augroup('mini_indentscope_disable_filetypes'),
+      group = genzade.augroup('mini_indentscope_disable_filetypes'),
       pattern = {
         'FTerm',
         'NvimTree',

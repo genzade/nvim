@@ -6,13 +6,9 @@ return {
   opts = defaults.opts,
   keys = defaults.keys,
   init = function()
-    local utils = require('genzade.core.utils')
-    local autocmd = utils.create_autocmd
-    local augroup = utils.create_augroup
-
-    autocmd('User', {
+    vim.api.nvim_create_autocmd('User', {
       desc = 'Add minifiles split keymaps',
-      group = augroup('mini_files_split_keymaps'),
+      group = genzade.augroup('mini_files_split_keymaps'),
       pattern = 'MiniFilesBufferCreate',
       callback = function(args)
         local buf_id = args.data.buf_id
@@ -199,9 +195,9 @@ return {
       gitStatusCache = {}
     end
 
-    autocmd('User', {
+    vim.api.nvim_create_autocmd('User', {
       desc = 'Update Git status on MiniFiles open',
-      group = augroup('minifile_start'),
+      group = genzade.augroup('minifile_start'),
       pattern = 'MiniFilesExplorerOpen',
       callback = function()
         local bufnr = vim.api.nvim_get_current_buf()
@@ -209,18 +205,18 @@ return {
       end,
     })
 
-    autocmd('User', {
+    vim.api.nvim_create_autocmd('User', {
       desc = 'Update Git status on MiniFiles close',
-      group = augroup('minifile_close'),
+      group = genzade.augroup('minifile_close'),
       pattern = 'MiniFilesExplorerClose',
       callback = function()
         clearCache()
       end,
     })
 
-    autocmd('User', {
+    vim.api.nvim_create_autocmd('User', {
       desc = 'Update Git status on MiniFiles buffer update',
-      group = augroup('minifile_update'),
+      group = genzade.augroup('minifile_update'),
       pattern = 'MiniFilesBufferUpdate',
       callback = function(args)
         local bufnr = args.data.buf_id

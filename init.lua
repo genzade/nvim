@@ -1,3 +1,9 @@
+_G.genzade = {}
+
+function genzade.augroup(name, opts)
+  return vim.api.nvim_create_augroup('genzade_' .. name, { clear = opts and opts.clear or true })
+end
+
 vim.opt.termguicolors = true -- Enable true color support, must be set before colorscheme
 
 vim.g.mapleader = ' '

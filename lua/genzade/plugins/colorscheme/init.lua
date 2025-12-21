@@ -1,10 +1,6 @@
 local config = function()
-  local utils = require('genzade.core.utils')
-  local autocmd = utils.create_autocmd
-  local augroup = utils.create_augroup
-
-  autocmd('ColorScheme', {
-    group = augroup('custom_highlights_sonokai'),
+  vim.api.nvim_create_autocmd('ColorScheme', {
+    group = genzade.augroup('custom_highlights_sonokai'),
     pattern = 'sonokai',
     callback = function()
       local config = vim.fn['sonokai#get_configuration']()

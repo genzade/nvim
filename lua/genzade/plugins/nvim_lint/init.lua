@@ -69,11 +69,8 @@ local config = function()
     end,
   }
 
-  local utils = require('genzade.core.utils')
-  local augroup = utils.create_augroup
-  local autocmd = utils.create_autocmd
-  autocmd({ 'BufReadPost', 'BufWritePost' }, {
-    group = augroup('auto_lint'),
+  vim.api.nvim_create_autocmd({ 'BufReadPost', 'BufWritePost' }, {
+    group = genzade.augroup('auto_lint'),
     callback = function()
       nvim_lint.try_lint()
     end,
