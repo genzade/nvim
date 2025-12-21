@@ -73,7 +73,7 @@ M.on_attach = function(bufnr)
 end
 
 M.tree_view = {
-  width = FILETREE_WIDTH,
+  width = 50,
   preserve_window_proportions = true,
 }
 

@@ -4,8 +4,8 @@ local config = function()
     return
   end
 
-  local stylua_config = CONFIG_PATH .. '/stylua.toml'
-  local fmt_config = CONFIG_PATH .. '/lua/genzade/plugins/conform/fmt_configs/yamlfmt.yml'
+  local stylua_config = vim.fn.stdpath('config') .. '/stylua.toml'
+  -- local fmt_config = vim.fn.stdpath('config') .. '/lua/genzade/plugins/conform/fmt_configs/yamlfmt.yml'
 
   conform.setup({
     formatters_by_ft = {
