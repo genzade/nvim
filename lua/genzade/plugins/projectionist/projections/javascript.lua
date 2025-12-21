@@ -1,5 +1,3 @@
-local multiline_str = require('genzade.core.utils').sanitize_str
-
 M = {}
 
 M.javascript_generic = {
@@ -11,7 +9,7 @@ M.javascript_generic = {
     alternate = 'src/{}.js',
     type = 'test',
     template = {
-      multiline_str([[
+      genzade.heredoc([[
       describe('{camelcase|capitalize|colons}', () => {,
         it('does something', () => {,
           expect(true).toBe(false),

@@ -4,6 +4,18 @@ function genzade.augroup(name, opts)
   return vim.api.nvim_create_augroup('genzade_' .. name, { clear = opts and opts.clear or true })
 end
 
+function genzade.heredoc(str)
+  local indent = str:match('\n([ \t]*)%S')
+
+  if not indent then
+    return str
+  end
+
+  str = (str:gsub('\n' .. indent, '\n')):gsub('^%s+', '')
+
+  return str
+end
+
 vim.opt.termguicolors = true -- Enable true color support, must be set before colorscheme
 
 vim.g.mapleader = ' '
