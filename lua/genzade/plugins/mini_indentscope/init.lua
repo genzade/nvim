@@ -10,7 +10,7 @@ return {
       desc = 'Disable mini.indentscope for certain file types',
       group = genzade.augroup('mini_indentscope_disable_filetypes'),
       pattern = {
-        'FTerm',
+        'ftm',
         'NvimTree',
         'copilot-chat',
         'dashboard',

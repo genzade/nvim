@@ -52,6 +52,11 @@ local config = function()
       },
     },
     extensions = {
+      -- TODO: make this work properly
+      -- ftm = {
+      --   initial_mode = 'normal',
+      --   prompt_prefix = '   ',
+      -- },
       fzf = {
         fuzzy = true, -- false will only do exact matching
         override_generic_sorter = false, -- override the generic sorter
@@ -77,79 +82,64 @@ local config = function()
   for group, hl in pairs(highlights) do
     vim.api.nvim_set_hl(0, group, hl)
   end
+  telescope.load_extension('ftm')
 
   local has_tbuiltin, tbuiltin = pcall(require, 'telescope.builtin')
   if not has_tbuiltin then
     return
   end
 
-  local wk_ok, wk = pcall(require, 'which-key')
-  if not wk_ok then
-    return
+  local mappings = {
+    { 'n', '?', tbuiltin.current_buffer_fuzzy_find, 'Search current [B]uffer' },
+    { 'n', '<Leader>fC', tbuiltin.command_history, 'Search [C]ommand history' },
+    { 'n', '<Leader>fL', tbuiltin.resume, 'Resume [L]ast search' },
+    { 'n', '<Leader>fc', tbuiltin.commands, 'Search available [C]ommands' },
+    { 'n', '<Leader>ff', tbuiltin.find_files, 'Find [F]ile' },
+    { 'n', '<Leader>fgc', tbuiltin.git_commits, 'Search [G]it [C]ommits' },
+    { 'n', '<Leader>fgf', tbuiltin.git_files, 'Find [G]it [F]iles' },
+    { 'n', '<Leader>fgs', tbuiltin.git_status, 'Search [G]it [S]tatus' },
+    { 'n', '<Leader>fh', tbuiltin.help_tags, 'Search [H]elp docs' },
+    { 'n', '<Leader>fl', tbuiltin.live_grep, '[L]ive search string' },
+    { 'n', '<Leader>fm', tbuiltin.marks, 'Search [M]arks' },
+    {
+      'n',
+      '<Leader>fn',
+      function()
+        telescope.extensions.notify.notify({ initial_mode = 'normal' })
+      end,
+      'Search [N]otification',
+    },
+    {
+      'n',
+      '<Leader>fp',
+      function()
+        telescope.extensions.neoclip.default()
+      end,
+      'Search yank/[P]aste registers',
+    },
+    { 'n', '<Leader>fr', tbuiltin.registers, 'Search [R]egisters' },
+    { 'n', '<Leader>fs', tbuiltin.grep_string, '[S]earch word under cursor' },
+    {
+      'n',
+      '<leader>ft',
+      -- '<cmd>Telescope ftm<CR>',
+      function()
+        telescope.extensions.ftm.ftm({ initial_mode = 'normal', prompt_prefix = '   ' })
+      end,
+      '[F]loating [T]erminal Picker',
+    },
+    {
+      'x',
+      '<Leader>fs',
+      tbuiltin.grep_string,
+      'Find visually [S]elected word/s',
+    },
+  }
+
+  for _, mapping in ipairs(mappings) do
+    local mode, lhs, rhs, desc = unpack(mapping)
+    vim.keymap.set(mode, lhs, rhs, { desc = desc })
   end
-
-  wk.add({
-    {
-      mode = { 'n' },
-      { '<Leader>f', group = 'Telescope' },
-      { '<Leader>fb', tbuiltin.current_buffer_fuzzy_find, desc = 'Search current [B]uffer' },
-      { '<Leader>fC', tbuiltin.command_history, desc = 'Search [C]ommand history' },
-      { '<Leader>fL', tbuiltin.resume, desc = 'Resume [L]ast search' },
-      { '<Leader>fc', tbuiltin.commands, desc = 'Search available [C]ommands' },
-      { '<Leader>ff', tbuiltin.find_files, desc = 'Find [F]ile' },
-      { '<Leader>fgc', tbuiltin.git_commits, desc = 'Search [G]it [C]ommits' },
-      { '<Leader>fgf', tbuiltin.git_files, desc = 'Find [G]it [F]iles' },
-      { '<Leader>fgs', tbuiltin.git_status, desc = 'Search [G]it [S]tatus' },
-      { '<Leader>fh', tbuiltin.help_tags, desc = 'Search [H]elp docs' },
-      { '<Leader>fl', tbuiltin.live_grep, desc = '[L]ive search string' },
-      { '<Leader>fm', tbuiltin.marks, desc = 'Search [M]arks' },
-      {
-        '<Leader>fn',
-        function()
-          telescope.extensions.notify.notify({ initial_mode = 'normal' })
-        end,
-        desc = 'Search [N]otification',
-      },
-      {
-        '<Leader>fp',
-        function()
-          telescope.extensions.neoclip.default()
-        end,
-        desc = 'Search yank/[P]aste registers',
-      },
-      { '<Leader>fr', tbuiltin.registers, desc = 'Search [R]egisters' },
-      { '<Leader>fs', tbuiltin.grep_string, desc = '[S]earch word under cursor' },
-    },
-    {
-      mode = { 'x' },
-      {
-        '<Leader>fs',
-        function()
-          local visual_selection = function()
-            -- Get visually selected text
-
-            -- TODO: make this work with new nvim_cmd api
-            vim.cmd('noautocmd normal! "vy"')
-
-            local text = vim.fn.getreg('v')
-
-            vim.fn.setreg('v', {})
-
-            text = string.gsub(text, '\n', '')
-
-            if string.len(text) == 0 then
-              text = ''
-            end
-
-            return text
-          end
-
-          tbuiltin.grep_string({ search = visual_selection() })
-        end,
-        desc = 'Find visually [S]elected word/s',
-      },
-    },
-  })
 end
 
 return {
@@ -158,8 +148,8 @@ return {
     'nvim-lua/popup.nvim',
     'nvim-lua/plenary.nvim',
     { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
-    'folke/which-key.nvim',
     'rcarriga/nvim-notify',
+    'genzade/ftm.nvim',
   },
   event = 'VimEnter',
   config = config,

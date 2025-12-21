@@ -1,14 +1,12 @@
 local M = {}
 
-M.fterm_runner = function(cmd)
-  local ok, fterm = pcall(require, 'FTerm')
+M.ftm_runner = function(cmd)
+  local ok, ftm = pcall(require, 'ftm')
   if not ok then
     return
   end
 
-  local default_dimmensions = require('genzade.plugins.fterm.defaults').default_dimmensions
-
-  fterm.scratch({ cmd = cmd, dimensions = default_dimmensions })
+  ftm.scratch({ cmd = cmd })
 end
 
 M.tmux_runner = function(cmd)
@@ -33,7 +31,7 @@ M.select_strategy = function()
     vim.api.nvim_set_var('test#strategy', item)
   end
 
-  vim.ui.select({ 'tmux', 'fterm' }, { prompt = 'Select Test strategy:' }, set_selection)
+  vim.ui.select({ 'tmux', 'ftm' }, { prompt = 'Select Test strategy:' }, set_selection)
 end
 
 -- TODO: this should be refactored

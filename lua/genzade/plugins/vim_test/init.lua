@@ -1,6 +1,6 @@
 local config = function()
   local defaults = require('genzade.plugins.vim_test.defaults')
-  local fterm_runner = defaults.fterm_runner
+  local ftm_runner = defaults.ftm_runner
   local tmux_runner = defaults.tmux_runner
   local select_strategy = defaults.select_strategy
   local select_rspec_executable = defaults.select_rspec_executable
@@ -8,12 +8,12 @@ local config = function()
   vim.api.nvim_create_user_command('TestStrategySelect', select_strategy, { force = true })
 
   vim.api.nvim_set_var('test#custom_strategies', {
-    fterm = fterm_runner,
+    ftm = ftm_runner,
     tmux = tmux_runner,
   })
 
-  -- vim.g['test#strategy'] = 'fterm'
-  vim.api.nvim_set_var('test#strategy', 'fterm')
+  -- vim.g['test#strategy'] = 'ftm'
+  vim.api.nvim_set_var('test#strategy', 'ftm')
 
   -- javascript
   vim.api.nvim_set_var('test#javascript#jest#executable', 'yarn jest')
@@ -24,10 +24,13 @@ local config = function()
     { force = true }
   )
 
-  -- vim.g["test#strategy"] = "fterm"
+  -- vim.g["test#strategy"] = "ftm"
   -- vim.g["test#strategy"] = "dispatch"
   -- vim.g['test#strategy'] = 'neovim'
   -- vim.g['test#preserve_screen'] = 1
+
+  -- vim.g['test#lua#runner'] = '/Users/genzade/.luarocks/bin/busted'
+  -- vim.api.nvim_set_var('test#lua#busted#executable', '/Users/genzade/.luarocks/bin/busted')
 
   local wk_ok, wk = pcall(require, 'which-key')
   if not wk_ok then
@@ -51,6 +54,6 @@ end
 
 return {
   'vim-test/vim-test',
-  dependencies = { 'numtostr/FTerm.nvim', 'folke/which-key.nvim' },
+  dependencies = { 'genzade/ftm.nvim', 'folke/which-key.nvim' },
   config = config,
 }
