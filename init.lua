@@ -58,7 +58,7 @@ vim.g.completeopt = 'menu,menuone,noselect,noinsert,popup'
 --   ui = { border = 'rounded' },
 -- })
 
-local modules = { 'core', 'lazy' }
+local modules = { 'lazy' }
 
 for _, module in ipairs(modules) do
   require('genzade' .. '.' .. module).setup()
