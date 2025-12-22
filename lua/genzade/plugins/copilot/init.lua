@@ -5,19 +5,19 @@ local config = function()
   end
 
   copilot.setup({
-    panel = {
-      border = 'rounded',
-      enabled = true,
-      position = 'bottom',
-      size = 20,
-      keymap = {
-        accept = '<C-y>',
-        decline = '<C-e>',
-        dismiss = '<C-e>',
-        -- jump_next = '<C-kPoint>',
-        -- jump_prev = '<C-kComma>',
-      },
-    },
+    -- panel = {
+    --   border = 'rounded',
+    --   enabled = true,
+    --   position = 'bottom',
+    --   size = 20,
+    --   keymap = {
+    --     accept = '<C-y>',
+    --     decline = '<C-e>',
+    --     dismiss = '<C-c>',
+    --     -- jump_next = '<C-kPoint>',
+    --     -- jump_prev = '<C-kComma>',
+    --   },
+    -- },
     suggestion = {
       enabled = true,
       auto_trigger = true,
@@ -25,7 +25,7 @@ local config = function()
       keymap = {
         accept = '<TAB>',
         decline = '<C-e>',
-        dismiss = '<C-e>',
+        dismiss = '<C-c>',
         -- next = '<C-kPoint>',
         -- prev = '<C-kComma>',
         next = '<C-n>',
