@@ -20,10 +20,10 @@ M.setup_keymaps = function()
     if not vim.b.disable_autoformat then
       vim.b.disable_autoformat = true
       vim.notify('Autoformat-on-save disabled on buffer', 'info', { title = 'Conform' })
-    -- I rarely need to disable globally so I'm commenting this out
-    -- elseif vim.b.disable_autoformat and not vim.g.disable_autoformat then
-    --   vim.g.disable_autoformat = true
-    --   vim.notify('Autoformat-on-save disabled globally', 'info', { title = 'Conform' })
+      -- I rarely need to disable globally so I'm commenting this out
+      -- elseif vim.b.disable_autoformat and not vim.g.disable_autoformat then
+      --   vim.g.disable_autoformat = true
+      --   vim.notify('Autoformat-on-save disabled globally', 'info', { title = 'Conform' })
     else
       -- vim.g.disable_autoformat = false
       vim.b.disable_autoformat = false
@@ -35,44 +35,44 @@ M.setup_keymaps = function()
     {
       mode = { 'n' },
       { ',', group = 'LSP' },
-      { ',D', telescope_bltn.lsp_type_definitions, desc = 'Type [D]efinition' },
-      { ',ca', vim.lsp.buf.code_action, desc = '[C]ode [A]ction' },
+      -- { ',D',  telescope_bltn.lsp_type_definitions, desc = 'Type [D]efinition' },
+      -- { ',ca', vim.lsp.buf.code_action,             desc = '[C]ode [A]ction' },
       { ',e', vim.diagnostic.open_float, desc = 'Op[E]n diagnostics' },
       -- { ',f',  vim.lsp.buf.format,                           desc = '[F]ormat file' },
-      {
-        ',F',
-        function()
-          vim.cmd.AutoFormatToggle()
-        end,
-        desc = 'Toggle auto[F]ormat',
-      },
-      { ',k', vim.lsp.buf.signature_help, desc = 'Signature help' },
-      {
-        ',q',
-        vim.diagnostic.setloclist,
-        desc = 'Create/replace location list for window',
-      },
-      { ',s', telescope_bltn.lsp_document_symbols, desc = 'Document [S]ymbols' },
-      { ',rn', vim.lsp.buf.rename, desc = '[R]e[N]ame symbol' },
+      -- {
+      --   ',F',
+      --   function()
+      --     vim.cmd.AutoFormatToggle()
+      --   end,
+      --   desc = 'Toggle auto[F]ormat',
+      -- },
+      -- { ',k',  vim.lsp.buf.signature_help,                   desc = 'Signature help' },
+      -- {
+      --   ',q',
+      --   vim.diagnostic.setloclist,
+      --   desc = 'Create/replace location list for window',
+      -- },
+      -- { ',s',  telescope_bltn.lsp_document_symbols,          desc = 'Document [S]ymbols' },
+      -- { ',rn', vim.lsp.buf.rename,                           desc = '[R]e[N]ame symbol' },
       { ',w', group = 'Workspace' },
-      { ',wa', vim.lsp.buf.add_workspace_folder, desc = '[A]dd folder' },
-      { ',ws', telescope_bltn.lsp_dynamic_workspace_symbols, desc = '[W]orkspace [S]ymbols' },
-      {
-        ',wl',
-        function()
-          print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-        end,
-        desc = '[L]ist folders',
-      },
-      { ',wr', vim.lsp.buf.remove_workspace_folder, desc = '[R]emove folder' },
+      -- { ',wa', vim.lsp.buf.add_workspace_folder,             desc = '[A]dd folder' },
+      -- { ',ws', telescope_bltn.lsp_dynamic_workspace_symbols, desc = '[W]orkspace [S]ymbols' },
+      -- {
+      --   ',wl',
+      --   function()
+      --     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+      --   end,
+      --   desc = '[L]ist folders',
+      -- },
+      -- { ',wr', vim.lsp.buf.remove_workspace_folder, desc = '[R]emove folder' },
       { 'K', vim.lsp.buf.hover, desc = 'Hover' },
       { '[d', vim.diagnostic.goto_prev, desc = 'Previous [D]iagnostic' },
       { ']d', vim.diagnostic.goto_next, desc = 'Next [D]iagnostic' },
       { 'g', group = 'Goto' },
-      { 'gD', vim.lsp.buf.declaration, desc = '[G]o to [D]eclaration' },
-      { 'gd', telescope_bltn.lsp_definitions, desc = '[G]o to [D]efinition' },
-      { 'gi', vim.lsp.buf.implementation, desc = '[G]o to [I]mplementation' },
-      { 'gr', telescope_bltn.lsp_references, desc = '[G]o to [R]eferences' },
+      -- { 'gD',  vim.lsp.buf.declaration,             desc = '[G]o to [D]eclaration' },
+      -- { 'gd',  telescope_bltn.lsp_definitions,      desc = '[G]o to [D]efinition' },
+      -- { 'gi',  vim.lsp.buf.implementation,          desc = '[G]o to [I]mplementation' },
+      -- { 'gr',  telescope_bltn.lsp_references,       desc = '[G]o to [R]eferences' },
     },
     {
       mode = { 'n', 'v' },

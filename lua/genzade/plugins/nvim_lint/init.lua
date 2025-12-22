@@ -21,7 +21,7 @@ local config = function()
     markdown = { 'markdownlint' },
 
     eruby = { 'erb_lint' },
-    haml = { 'haml-lint' },
+    -- haml = { 'haml-lint' },
     ruby = { 'rubocop' },
 
     sh = { 'shellcheck' },
@@ -37,37 +37,37 @@ local config = function()
     ['info'] = vim.diagnostic.severity.INFO,
   }
 
-  nvim_lint.linters['haml-lint'] = {
-    cmd = 'haml-lint',
-    stdin = false,
-    ignore_exitcode = true,
-    args = { '--reporter', 'json' },
-    parser = function(output)
-      local diagnostics = {}
-      local decoded = vim.json.decode(output)
+  -- nvim_lint.linters['haml-lint'] = {
+  --   cmd = 'haml-lint',
+  --   stdin = false,
+  --   ignore_exitcode = true,
+  --   args = { '--reporter', 'json' },
+  --   parser = function(output)
+  --     local diagnostics = {}
+  --     local decoded = vim.json.decode(output)
 
-      if not decoded or not decoded.files or not decoded.files[1] then
-        return diagnostics
-      end
+  --     if not decoded or not decoded.files or not decoded.files[1] then
+  --       return diagnostics
+  --     end
 
-      local offences = decoded.files[1].offenses
+  --     local offences = decoded.files[1].offenses
 
-      for _, off in pairs(offences) do
-        table.insert(diagnostics, {
-          source = 'haml-lint',
-          lnum = off.location.line - 1,
-          col = 0,
-          end_lnum = off.location.line - 1,
-          end_col = 0,
-          severity = severity_map[off.severity],
-          message = off.message,
-          code = off.linter_name,
-        })
-      end
+  --     for _, off in pairs(offences) do
+  --       table.insert(diagnostics, {
+  --         source = 'haml-lint',
+  --         lnum = off.location.line - 1,
+  --         col = 0,
+  --         end_lnum = off.location.line - 1,
+  --         end_col = 0,
+  --         severity = severity_map[off.severity],
+  --         message = off.message,
+  --         code = off.linter_name,
+  --       })
+  --     end
 
-      return diagnostics
-    end,
-  }
+  --     return diagnostics
+  --   end,
+  -- }
 
   vim.api.nvim_create_autocmd({ 'BufReadPost', 'BufWritePost' }, {
     group = genzade.augroup('auto_lint'),
@@ -81,4 +81,5 @@ return {
   'mfussenegger/nvim-lint',
   event = { 'BufReadPost', 'BufWritePost' },
   config = config,
+  -- enabled = false
 }
