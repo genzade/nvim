@@ -1,11 +1,6 @@
 return {
-  -- dir = '/Users/genzade/code/nvim_plugins/v2/ftm.nvim', -- uncomment for local dev
   'genzade/ftm.nvim',
-  dependencies = {
-    'nvim-telescope/telescope.nvim',
-    'ColinKennedy/mega.cmdparse',
-    'ColinKennedy/mega.logging',
-  },
+  dependencies = { 'nvim-telescope/telescope.nvim' },
   opts = {},
   config = function()
     local ok, ftm = pcall(require, 'ftm')
