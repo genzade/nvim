@@ -89,19 +89,6 @@ return {
           vim.api.nvim_create_autocmd('LspAttach', {
             group = genzade.augroup('lsp_attach'),
             callback = function(event)
-              -- This function resolves a difference between neovim nightly (version 0.11) and stable (version 0.10)
-              ---@param client vim.lsp.Client
-              ---@param method vim.lsp.protocol.Method
-              ---@param bufnr? integer some lsp support methods only in specific files
-              ---@return boolean
-              local function client_supports_method(client, method, bufnr)
-                if vim.fn.has('nvim-0.11') == 1 then
-                  return client:supports_method(method, bufnr)
-                else
-                  return client.supports_method(method, { bufnr = bufnr })
-                end
-              end
-
               -- The following two autocommands are used to highlight references of the
               -- word under your cursor when your cursor rests there for a little while.
               --    See `:help CursorHold` for information about when this is executed
@@ -164,17 +151,6 @@ return {
                 end, '[T]oggle Inlay [H]ints')
               end
             end,
-          })
-
-          -- Set up for docker_compose_language_service, this lsp should only be
-          -- for docker-compose files
-          vim.filetype.add({
-            filename = {
-              ['compose.yaml'] = 'yaml.docker-compose',
-              ['compose.yml'] = 'yaml.docker-compose',
-              ['docker-compose.yaml'] = 'yaml.docker-compose',
-              ['docker-compose.yml'] = 'yaml.docker-compose',
-            },
           })
 
           vim.lsp.config.lua_ls = {
