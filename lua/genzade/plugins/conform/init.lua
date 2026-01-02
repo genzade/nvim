@@ -4,6 +4,16 @@ local config = function()
     return
   end
 
+  local function has_rubocop_binstub(ctx)
+    return vim.fs.find({
+      'bin/rubocop',
+    }, {
+      upward = true,
+      path = ctx.dirname,
+      stop = vim.fs.find({ '.git' }, { upward = true, path = ctx.dirname })[1],
+    })[1] ~= nil
+  end
+
   local stylua_config = vim.fn.stdpath('config') .. '/stylua.toml'
   -- local fmt_config = vim.fn.stdpath('config') .. '/lua/genzade/plugins/conform/fmt_configs/yamlfmt.yml'
 
@@ -16,7 +26,7 @@ local config = function()
       -- -- prettierd
       -- css = { 'prettierd' },
       -- html = { 'prettierd' },
-      -- javascript = { 'standardjs' },
+      javascript = { 'standardjs' },
       -- json = { 'prettierd' },
       -- markdown = { 'prettierd' },
       -- scss = { 'prettierd' },
@@ -34,18 +44,59 @@ local config = function()
       --   args = { '--stdin' },
       -- },
       rubocop = {
-        -- cwd = require("conform.util").root_file({ ".rubocop.yml", "Gemfile" }),
-        command = './bin/bundle',
-        args = {
-          'exec',
-          'rubocop',
-          '--autocorrect',
-          '--stdin',
-          '$FILENAME', -- current filename to format
-          '--format',
-          'emacs', -- emacs format is easy for tools to parse, can also use "json"
-          '--stderr', -- Sends non-code output (warnings, errors) to stderr
-        },
+        condition = function(_, ctx)
+          if has_rubocop_binstub(ctx) then
+            return true
+          end
+
+          -- Otherwise, only use rubocop when config file is present
+          return vim.fs.find({
+            '.rubocop.yml',
+            '.rubocop.yaml',
+            '.rubocop_todo.yml',
+            '.rubocop_todo.yaml',
+          }, {
+            upward = true,
+            path = ctx.dirname,
+            stop = vim.fs.find({ '.git' }, { upward = true, path = ctx.dirname })[1],
+          })[1] ~= nil
+        end,
+        --@param ctx conform.Context
+        command = function(_, ctx)
+          if has_rubocop_binstub(ctx) then
+            return 'bin/rubocop'
+          end
+
+          return 'bundle'
+        end,
+        --@param ctx conform.Context
+        args = function(_, ctx)
+          if has_rubocop_binstub(ctx) then
+            -- Use the binstub if it exists
+            return { '--server', '-a', '-f', 'quiet', '--stderr', '--stdin', '$FILENAME' }
+          end
+          -- Otherwise, use the default rubocop command
+          return {
+            'exec',
+            'rubocop',
+            '--autocorrect',
+            '--format',
+            'quiet',
+            '--stderr',
+            '--stdin',
+            '$FILENAME',
+          }
+        end,
+        -- args = {
+        --   'exec',
+        --   'rubocop',
+        --   '--autocorrect',
+        --   '--stdin',
+        --   '$FILENAME', -- current filename to format
+        --   '--format',
+        --   'emacs', -- emacs format is easy for tools to parse, can also use "json"
+        --   '--stderr', -- Sends non-code output (warnings, errors) to stderr
+        lsp_format = 'first',
         stdin = true,
         cwd = require('conform.util').root_file({ 'Gemfile', '.rubocop.yml' }),
         -- https://github.com/faun/dotfiles/blob/166803fa556b799a5433a331006e02c6ff321c1f/config/nvim/lua/plugins/formatting.lua#L17
@@ -82,26 +133,26 @@ local config = function()
       }
     end,
   })
-
-  vim.api.nvim_create_user_command('AutoFormatToggle', function()
-    if not vim.b.disable_autoformat then
-      vim.b.disable_autoformat = true
-      vim.notify('Autoformat-on-save disabled on buffer', { title = 'Conform' })
-      -- I rarely need to disable globally so I'm commenting this out
-      -- elseif vim.b.disable_autoformat and not vim.g.disable_autoformat then
-      --   vim.g.disable_autoformat = true
-      --   vim.notify('Autoformat-on-save disabled globally', 'info', { title = 'Conform' })
-    else
-      -- vim.g.disable_autoformat = false
-      vim.b.disable_autoformat = false
-      vim.notify('Autoformat-on-save re-enabled', { title = 'Conform' })
-    end
-  end, { desc = 'Toggle autoformat on save', bang = true })
-
-  vim.keymap.set('n', ',F', function()
-    vim.cmd.AutoFormatToggle()
-  end, { desc = 'Toggle auto[F]ormat' })
 end
+
+vim.api.nvim_create_user_command('AutoFormatToggle', function()
+  if not vim.b.disable_autoformat then
+    vim.b.disable_autoformat = true
+    vim.notify('Autoformat-on-save disabled on buffer', vim.log.levels.INFO, { title = 'Conform' })
+    -- I rarely need to disable globally so I'm commenting this out
+    -- elseif vim.b.disable_autoformat and not vim.g.disable_autoformat then
+    --   vim.g.disable_autoformat = true
+    --   vim.notify('Autoformat-on-save disabled globally', 'info', { title = 'Conform' })
+  else
+    -- vim.g.disable_autoformat = false
+    vim.b.disable_autoformat = false
+    vim.notify('Autoformat-on-save re-enabled', vim.log.levels.INFO, { title = 'Conform' })
+  end
+end, { desc = 'Toggle autoformat on save', bang = true })
+
+vim.keymap.set('n', ',F', function()
+  vim.cmd.AutoFormatToggle()
+end, { desc = 'Toggle auto[F]ormat' })
 
 return {
   'stevearc/conform.nvim',

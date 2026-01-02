@@ -81,5 +81,5 @@ return {
   'mfussenegger/nvim-lint',
   event = { 'BufReadPost', 'BufWritePost' },
   config = config,
-  -- enabled = false
+  enabled = false,
 }
