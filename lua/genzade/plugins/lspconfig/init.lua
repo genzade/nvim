@@ -1,179 +1,218 @@
-local config = function()
-  -- local defaults = require('genzade.plugins.lspconfig.defaults')
-  -- local utils = require('genzade.core.utils')
-  -- local autocmd = utils.create_autocmd
+-- local config = function()
+-- local defaults = require('genzade.plugins.lspconfig.defaults')
+-- local utils = require('genzade.core.utils')
+-- local autocmd = utils.create_autocmd
 
-  -- vim.api.nvim_create_autocmd('LspAttach', {
-  --   group = genzade.augroup('lsp_attach'),
-  --   callback = function(event)
-  --     defaults.setup_keymaps()
+-- local capabilities = blink_cmp.get_lsp_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-  --     -- The following two autocommands are used to highlight references of the
-  --     -- word under your cursor when your cursor rests there for a little while.
-  --     --    See `:help CursorHold` for information about when this is executed
-  --     --
-  --     -- When you move your cursor, the highlights will be cleared (the second autocommand).
-  --     local client = vim.lsp.get_client_by_id(event.data.client_id)
-  --     if
-  --       client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight)
-  --     then
-  --       local highlight_augroup = genzade.augroup('lsp_highlight', { clear = false })
-  --       autocmd({ 'CursorHold', 'CursorHoldI' }, {
-  --         buffer = event.buf,
-  --         group = highlight_augroup,
-  --         callback = vim.lsp.buf.document_highlight,
-  --       })
+-- -- You can add other tools here that you want Mason to install
+-- -- for you, so that they are available from within Neovim.
+-- local ensure_installed = vim.tbl_keys(defaults.servers() or {})
+-- vim.list_extend(ensure_installed, {
+--   'erb-lint', -- Used to lint ERB files
+--   'erb-formatter', -- Used to format ERB files
+--   'eslint_d', -- Used to lint JavaScript and TypeScript files
+--   'haml-lint', -- Used to lint HAML files
+--   'hadolint', -- Used to lint Dockerfiles
+--   'jsonlint', -- Used to lint JSON files
+--   'standardjs', -- Used to format JavaScript, TypeScript, JSON, CSS, SCSS, HTML, and Markdown files
+--   'rubocop', -- Used to lint Ruby files -- NOTE: Already included in asdf/.default-gems
+--   'markdownlint', -- Used to lint Markdown files
+--   'shellcheck', -- Used to lint shell scripts
+--   'stylelint', -- Used to lint CSS and SCSS files
+--   'stylua', -- Used to format Lua code
+--   'htmlhint', -- Used to lint HTML files
+--   'yamlfmt', -- Used to format YAML files
+--   -- 'yamllint', -- Used to lint YAML files -- NOTE: need to add python3 to path
+-- })
 
-  --       autocmd({ 'CursorMoved', 'CursorMovedI' }, {
-  --         buffer = event.buf,
-  --         group = highlight_augroup,
-  --         callback = vim.lsp.buf.clear_references,
-  --       })
-
-  --       vim.api.nvim_create_autocmd('LspDetach', {
-  --         group = genzade.augroup('lsp_detach', { clear = true }),
-  --         callback = function(event2)
-  --           vim.lsp.buf.clear_references()
-  --           vim.api.nvim_clear_autocmds({
-  --             group = 'genzade_lsp_highlight',
-  --             buffer = event2.buf,
-  --           })
-  --         end,
-  --       })
-  --     end
-
-  --     if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
-  --       local map = function(keys, func, desc, mode)
-  --         mode = mode or 'n'
-  --         vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = desc })
-  --       end
-
-  --       map(',h', function()
-  --         vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
-  --       end, '[T]oggle Inlay [H]ints')
-  --     end
-  --   end,
-  -- })
-
-  -- if vim.g.have_nerd_font then
-  --   local diagnostic_signs = {}
-  --   for sign_type, sign_icon in pairs(defaults.signs) do
-  --     diagnostic_signs[vim.diagnostic.severity[sign_type]] = sign_icon
-  --   end
-  --   vim.diagnostic.config({ signs = { text = diagnostic_signs } })
-  -- end
-
-  -- local blink_cmp_ok, blink_cmp = pcall(require, 'blink.cmp')
-  -- if not blink_cmp_ok then
-  --   return
-  -- end
-
-  -- local capabilities = blink_cmp.get_lsp_capabilities(vim.lsp.protocol.make_client_capabilities())
-
-  -- local lspc_ok, lspconfig = pcall(require, 'lspconfig')
-  -- if not lspc_ok then
-  --   return
-  -- end
-
-  -- -- Ensure the servers and tools from defaults (servers) are installed
-  -- --  To check the current status of installed tools and/or manually install
-  -- --  other tools, you can run
-  -- --    :Mason
-  -- --
-  -- --  You can press `g?` for help in this menu.
-  -- local mason_ok, mason = pcall(require, 'mason')
-  -- if not mason_ok then
-  --   return
-  -- end
-
-  -- mason.setup({
-  --   ui = {
-  --     icons = {
-  --       package_installed = '✓',
-  --       package_pending = '➜',
-  --       package_uninstalled = '✗',
-  --     },
-  --   },
-  -- })
-
-  -- -- You can add other tools here that you want Mason to install
-  -- -- for you, so that they are available from within Neovim.
-  -- local ensure_installed = vim.tbl_keys(defaults.servers() or {})
-  -- vim.list_extend(ensure_installed, {
-  --   'erb-lint', -- Used to lint ERB files
-  --   'erb-formatter', -- Used to format ERB files
-  --   'eslint_d', -- Used to lint JavaScript and TypeScript files
-  --   'haml-lint', -- Used to lint HAML files
-  --   'hadolint', -- Used to lint Dockerfiles
-  --   'jsonlint', -- Used to lint JSON files
-  --   'standardjs', -- Used to format JavaScript, TypeScript, JSON, CSS, SCSS, HTML, and Markdown files
-  --   'rubocop', -- Used to lint Ruby files -- NOTE: Already included in asdf/.default-gems
-  --   'markdownlint', -- Used to lint Markdown files
-  --   'shellcheck', -- Used to lint shell scripts
-  --   'stylelint', -- Used to lint CSS and SCSS files
-  --   'stylua', -- Used to format Lua code
-  --   'htmlhint', -- Used to lint HTML files
-  --   'yamlfmt', -- Used to format YAML files
-  --   -- 'yamllint', -- Used to lint YAML files -- NOTE: need to add python3 to path
-  -- })
-
-  -- local mason_installer_ok, mason_installer = pcall(require, 'mason-tool-installer')
-  -- if not mason_installer_ok then
-  --   return
-  -- end
-  -- mason_installer.setup({ ensure_installed = ensure_installed })
-
-  -- local mason_lspc_ok, mason_lspc = pcall(require, 'mason-lspconfig')
-  -- if not mason_lspc_ok then
-  --   return
-  -- end
-
-  -- mason_lspc.setup({
-  --   handlers = {
-  --     function(server_name)
-  --       local server = defaults.servers()[server_name] or {}
-  --       -- This handles overriding only values explicitly passed
-  --       -- by the server configuration above. Useful when disabling
-  --       -- certain features of an LSP (for example, turning off formatting for ts_ls)
-  --       server.capabilities =
-  --         vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-  --       lspconfig[server_name].setup(server)
-  --     end,
-  --   },
-  -- })
-end
+local config = {
+  lsp = {
+    servers = {
+      'docker_compose_language_service',
+      'dockerls',
+      'lua_ls',
+      'ruby_lsp',
+      'yamlls',
+    },
+    formatters = {
+      'stylua',
+    },
+    linters = {
+      'rubocop',
+    },
+  },
+}
 
 return {
-  'neovim/nvim-lspconfig',
-  dependencies = {
-    { 'williamboman/mason.nvim', config = true }, -- NOTE: Must be loaded before dependants
-    'williamboman/mason-lspconfig.nvim',
-    'WhoIsSethDaniel/mason-tool-installer.nvim',
-    { 'j-hui/fidget.nvim', opts = {} },
-    'saghen/blink.cmp',
-    'b0o/schemastore.nvim',
-    {
-      'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
-      config = function()
-        local ll_ok, lsp_lines = pcall(require, 'lsp_lines')
-        if not ll_ok then
-          return
-        end
-
-        lsp_lines.setup()
-        -- Disable virtual_text since it's redundant due to lsp_lines.
-        vim.diagnostic.config({
-          virtual_text = false,
-          virtual_lines = { only_current_line = true },
-        })
-
-        -- -- https://github.com/folke/lazy.nvim/issues/620
-        -- vim.diagnostic.config({ virtual_lines = false }, require("lazy.core.config").ns)
-      end,
+  {
+    'mason-org/mason-lspconfig.nvim',
+    opts = {
+      ensure_installed = config.lsp.servers,
     },
-    { 'folke/lazydev.nvim', ft = 'lua' },
-    'stevearc/conform.nvim',
+    dependencies = {
+      {
+        'mason-org/mason.nvim',
+        opts = {
+          ui = {
+            icons = {
+              package_installed = '✓',
+              package_pending = '➜',
+              package_uninstalled = '✗',
+            },
+          },
+        },
+      },
+      {
+        'neovim/nvim-lspconfig',
+        dependencies = {
+          'creativenull/efmls-configs-nvim',
+        },
+        init = function()
+          local signs = { ERROR = '', HINT = '', INFO = '', WARN = '' }
+          if vim.g.have_nerd_font then
+            local diagnostic_signs = {}
+            for sign_type, sign_icon in pairs(signs) do
+              diagnostic_signs[vim.diagnostic.severity[sign_type]] = sign_icon
+            end
+            vim.diagnostic.config({ signs = { text = diagnostic_signs } })
+          end
+
+          vim.api.nvim_create_autocmd('CursorHold', {
+            callback = function()
+              vim.diagnostic.open_float(nil, {
+                focus = false,
+              })
+            end,
+          })
+
+          vim.api.nvim_create_autocmd('LspAttach', {
+            group = genzade.augroup('lsp_attach'),
+            callback = function(event)
+              -- This function resolves a difference between neovim nightly (version 0.11) and stable (version 0.10)
+              ---@param client vim.lsp.Client
+              ---@param method vim.lsp.protocol.Method
+              ---@param bufnr? integer some lsp support methods only in specific files
+              ---@return boolean
+              local function client_supports_method(client, method, bufnr)
+                if vim.fn.has('nvim-0.11') == 1 then
+                  return client:supports_method(method, bufnr)
+                else
+                  return client.supports_method(method, { bufnr = bufnr })
+                end
+              end
+
+              -- The following two autocommands are used to highlight references of the
+              -- word under your cursor when your cursor rests there for a little while.
+              --    See `:help CursorHold` for information about when this is executed
+              --
+              -- When you move your cursor, the highlights will be cleared (the second autocommand).
+              local client = vim.lsp.get_client_by_id(event.data.client_id)
+              if
+                client
+                -- client_supports_method(
+                --   client,
+                --   vim.lsp.protocol.Methods.textDocument_documentHighlight,
+                --   event.buf
+                -- )
+                and client:supports_method(
+                  vim.lsp.protocol.Methods.textDocument_documentHighlight,
+                  event.buf
+                )
+              then
+                local highlight_augroup = genzade.augroup('lsp_highlight', { clear = false })
+                vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
+                  buffer = event.buf,
+                  group = highlight_augroup,
+                  callback = vim.lsp.buf.document_highlight,
+                })
+
+                vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
+                  buffer = event.buf,
+                  group = highlight_augroup,
+                  callback = vim.lsp.buf.clear_references,
+                })
+
+                vim.api.nvim_create_autocmd('LspDetach', {
+                  group = genzade.augroup('lsp_detach', { clear = true }),
+                  callback = function(event2)
+                    vim.lsp.buf.clear_references()
+                    vim.api.nvim_clear_autocmds({
+                      group = 'genzade_lsp_highlight',
+                      buffer = event2.buf,
+                    })
+                  end,
+                })
+              end
+
+              if
+                client
+                and client:supports_method(
+                  vim.lsp.protocol.Methods.textDocument_inlayHint,
+                  event.buf
+                )
+              then
+                local map = function(keys, func, desc, mode)
+                  mode = mode or 'n'
+                  vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = desc })
+                end
+
+                map(',h', function()
+                  vim.lsp.inlay_hint.enable(
+                    not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf })
+                  )
+                end, '[T]oggle Inlay [H]ints')
+              end
+            end,
+          })
+
+          -- Set up for docker_compose_language_service, this lsp should only be
+          -- for docker-compose files
+          vim.filetype.add({
+            filename = {
+              ['compose.yaml'] = 'yaml.docker-compose',
+              ['compose.yml'] = 'yaml.docker-compose',
+              ['docker-compose.yaml'] = 'yaml.docker-compose',
+              ['docker-compose.yml'] = 'yaml.docker-compose',
+            },
+          })
+
+          vim.lsp.config.lua_ls = {
+            cmd = { 'lua-language-server' },
+            filetypes = { 'lua' },
+            root_markers = { '.luarc.json', '.luarc.jsonc' },
+            settings = {
+              Lua = {
+                runtime = {
+                  version = 'LuaJIT',
+                },
+                diagnostics = {
+                  globals = { 'vim' }, -- Recognize 'vim' as a global variable
+                },
+                workspace = {
+                  library = vim.api.nvim_get_runtime_file('', true), -- Include Neovim runtime files
+                },
+                telemetry = {
+                  enable = false, -- Disable telemetry
+                },
+              },
+            },
+          }
+        end,
+      },
+    },
   },
-  config = config,
-  enabled = false,
+  {
+    'WhoIsSethDaniel/mason-tool-installer.nvim',
+    opts = {
+      -- ensure_installed = vim
+      --   .iter({ config.lsp.servers, config.lsp.formatters, config.lsp.linters })
+      --   :flatten()
+      --   :totable(),
+      ensure_installed = vim
+        .iter({ config.lsp.formatters, config.lsp.linters })
+        :flatten()
+        :totable(),
+    },
+  },
 }

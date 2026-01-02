@@ -29,4 +29,9 @@ return {
     },
   },
   opts_extend = { 'sources.default' },
+  init = function()
+    local capabilities =
+      require('blink.cmp').get_lsp_capabilities(vim.lsp.protocol.make_client_capabilities())
+    vim.lsp.config('*', { capabilities = capabilities })
+  end,
 }
