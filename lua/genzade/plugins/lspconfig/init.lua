@@ -29,17 +29,26 @@
 local config = {
   lsp = {
     servers = {
+      'bashls',
+      'cssls',
       'docker_compose_language_service',
       'dockerls',
       'lua_ls',
       'ruby_lsp',
+      'terraformls',
       'yamlls',
     },
     formatters = {
+      'prettierd',
+      'shfmt',
+      'standardjs',
       'stylua',
+      'terraform',
     },
     linters = {
       'rubocop',
+      'shellcheck',
+      'stylelint',
     },
   },
 }
@@ -49,6 +58,9 @@ return {
     'mason-org/mason-lspconfig.nvim',
     opts = {
       ensure_installed = config.lsp.servers,
+      automatic_enable = {
+        exclude = { 'rubocop', 'shfmt', 'shellcheck' },
+      },
     },
     dependencies = {
       {
@@ -97,11 +109,6 @@ return {
               local client = vim.lsp.get_client_by_id(event.data.client_id)
               if
                 client
-                -- client_supports_method(
-                --   client,
-                --   vim.lsp.protocol.Methods.textDocument_documentHighlight,
-                --   event.buf
-                -- )
                 and client:supports_method(
                   vim.lsp.protocol.Methods.textDocument_documentHighlight,
                   event.buf
@@ -181,10 +188,6 @@ return {
   {
     'WhoIsSethDaniel/mason-tool-installer.nvim',
     opts = {
-      -- ensure_installed = vim
-      --   .iter({ config.lsp.servers, config.lsp.formatters, config.lsp.linters })
-      --   :flatten()
-      --   :totable(),
       ensure_installed = vim
         .iter({ config.lsp.formatters, config.lsp.linters })
         :flatten()

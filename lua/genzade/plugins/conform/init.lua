@@ -19,23 +19,21 @@ local config = function()
 
   conform.setup({
     formatters_by_ft = {
-      -- -- erb
       -- eruby = { 'erb_formatter', 'erb_lint' },
-      -- -- hadolint
       -- dockerfile = { 'hadolint' },
-      -- -- prettierd
-      -- css = { 'prettierd' },
-      -- html = { 'prettierd' },
+      css = { 'prettierd' },
+      html = { 'prettierd' },
       javascript = { 'standardjs' },
-      -- json = { 'prettierd' },
-      -- markdown = { 'prettierd' },
-      -- scss = { 'prettierd' },
-      -- typescript = { 'prettierd' },
-      -- rubocop
+      json = { 'prettierd' },
+      markdown = { 'prettierd' },
+      -- scss = { 'standardjs' },
+      scss = { 'prettierd' },
+      sh = { 'shfmt' },
+      -- scss = { 'stylelint' },
+      typescript = { 'prettierd' },
       ruby = { 'rubocop' },
-      -- stylua
       lua = { 'stylua' },
-      -- yamlfmt
+      terraform = { 'terraform_fmt' },
       -- yaml = { 'yamlfmt' },
     },
     formatters = {
@@ -87,16 +85,6 @@ local config = function()
             '$FILENAME',
           }
         end,
-        -- args = {
-        --   'exec',
-        --   'rubocop',
-        --   '--autocorrect',
-        --   '--stdin',
-        --   '$FILENAME', -- current filename to format
-        --   '--format',
-        --   'emacs', -- emacs format is easy for tools to parse, can also use "json"
-        --   '--stderr', -- Sends non-code output (warnings, errors) to stderr
-        lsp_format = 'first',
         stdin = true,
         cwd = require('conform.util').root_file({ 'Gemfile', '.rubocop.yml' }),
         -- https://github.com/faun/dotfiles/blob/166803fa556b799a5433a331006e02c6ff321c1f/config/nvim/lua/plugins/formatting.lua#L17
@@ -109,18 +97,6 @@ local config = function()
       -- },
     },
 
-    -- format_on_save = function(bufnr)
-    --   -- Disable with a global or buffer-local variable
-    --   if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
-    --     return
-    --   end
-
-    --   return {
-    --     -- async = true,
-    --     lsp_fallback = true,
-    --     timeout_ms = 1000,
-    --   }
-    -- end,
     format_after_save = function(bufnr)
       -- Disable with a global or buffer-local variable
       if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
