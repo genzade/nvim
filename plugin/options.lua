@@ -1,5 +1,6 @@
 vim.opt.cursorline = true
 vim.opt.expandtab = true
+vim.opt.exrc = true
 vim.opt.hidden = true
 vim.opt.ignorecase = true
 vim.opt.inccommand = 'split'
