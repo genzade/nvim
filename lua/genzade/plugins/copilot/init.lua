@@ -32,6 +32,12 @@ local config = function()
         prev = '<C-p>',
       },
     },
+    copilot_node_command = (function()
+      local node_version =
+        vim.trim(vim.fn.system("asdf list nodejs | tr -d ' *' | sort -V | tail -n1"))
+
+      return string.format('%s/.asdf/installs/nodejs/%s/bin/node', os.getenv('HOME'), node_version)
+    end)(),
   })
 
   local wk_ok, wk = pcall(require, 'which-key')

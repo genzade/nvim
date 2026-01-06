@@ -14,12 +14,6 @@ return {
     { '<leader>id', '<CMD>CopilotChatDocs<CR>', mode = 'v', desc = 'Generate Docs' },
     { '<leader>ie', '<CMD>CopilotChatExplain<CR>', mode = 'v', desc = 'Explain Code' },
     { '<leader>if', '<CMD>CopilotChatFix<CR>', mode = 'v', desc = 'Fix Code Issues' },
-    -- {
-    --   '<leader>im',
-    --   '<CMD>CopilotChatCommitStaged<CR>',
-    --   mode = 'n',
-    --   desc = 'Generate Commit Message',
-    -- },
     { '<leader>im', '<CMD>CopilotChatCommit<CR>', mode = 'n', desc = 'Generate Commit Message' },
     { '<leader>io', '<CMD>CopilotChatOptimize<CR>', mode = 'v', desc = 'Optimize Code' },
     { '<leader>ir', '<CMD>CopilotChatReview<CR>', mode = 'v', desc = 'Review Code' },
