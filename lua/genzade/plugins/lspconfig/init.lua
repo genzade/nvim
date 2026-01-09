@@ -36,6 +36,7 @@ local config = {
       'lua_ls',
       'ruby_lsp',
       'terraformls',
+      'ts_ls',
       'yamlls',
     },
     formatters = {
@@ -78,10 +79,11 @@ return {
       {
         'neovim/nvim-lspconfig',
         dependencies = {
-          'creativenull/efmls-configs-nvim',
+          'b0o/schemastore.nvim',
         },
         init = function()
-          local signs = { ERROR = '', HINT = '', INFO = '', WARN = '' }
+          local signs = { ERROR = '󰅚 ', HINT = '󰌶 ', INFO = '󰋽 ', WARN = '󰀪 ' }
+
           if vim.g.have_nerd_font then
             local diagnostic_signs = {}
             for sign_type, sign_icon in pairs(signs) do
@@ -178,6 +180,21 @@ return {
                 telemetry = {
                   enable = false, -- Disable telemetry
                 },
+              },
+            },
+          }
+
+          vim.lsp.config.yamlls = {
+            settings = {
+              yaml = {
+                schemaStore = {
+                  enable = false,
+                  url = '',
+                },
+                schemas = require('schemastore').yaml.schemas(),
+                validate = true,
+                completion = true,
+                hover = true,
               },
             },
           }
