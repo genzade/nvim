@@ -1,10 +1,18 @@
-local defaults = require('genzade.plugins.mini_indentscope.defaults')
-
 return {
   'echasnovski/mini.indentscope',
   version = '*',
   event = { 'BufReadPre', 'BufNewFile' },
-  opts = defaults.opts,
+  opts = {
+    draw = {
+      delay = 25,
+      priority = 2,
+    },
+    options = {
+      try_as_border = false,
+      try_as_border_hl = true,
+    },
+    symbol = '│',
+  },
   init = function()
     vim.api.nvim_create_autocmd('FileType', {
       desc = 'Disable mini.indentscope for certain file types',

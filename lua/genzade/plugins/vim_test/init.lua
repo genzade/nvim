@@ -24,6 +24,12 @@ local config = function()
     { force = true }
   )
 
+  -- ruby
+  vim.api.nvim_set_var(
+    'test#ruby#rspec#file_pattern',
+    [[\v(_spec\.rb|_feature\.rb|spec/.*\.feature)$]]
+  )
+
   -- vim.g["test#strategy"] = "ftm"
   -- vim.g["test#strategy"] = "dispatch"
   -- vim.g['test#strategy'] = 'neovim'
