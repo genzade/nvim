@@ -29,6 +29,7 @@ local config = function()
       -- scss = { 'standardjs' },
       scss = { 'prettierd' },
       sh = { 'shfmt' },
+      zsh = { 'shfmt' },
       -- scss = { 'stylelint' },
       typescript = { 'prettierd' },
       ruby = { 'rubocop' },
