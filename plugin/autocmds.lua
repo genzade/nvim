@@ -46,6 +46,15 @@ vim.api.nvim_create_autocmd('FileType', {
   end,
 })
 
+vim.api.nvim_create_autocmd('FileType', {
+  desc = 'Disable spell for filetypes where it is not needed',
+  group = genzade.augroup('text_spell'),
+  pattern = { 'startup' },
+  callback = function()
+    vim.opt_local.spell = false
+  end,
+})
+
 local numbertoggle_augroup = genzade.augroup('numbertoggle')
 
 vim.api.nvim_create_autocmd(
