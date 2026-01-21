@@ -26,7 +26,7 @@ return {
       })
     end, { desc = 'Toggle Lazy[G]it' })
 
-    vim.keymap.set({ 'n', 't' }, '<C-x>', function()
+    vim.keymap.set('t', '<C-x>', function()
       ftm.close_all()
     end, { desc = 'Close any open terminal' })
   end,
