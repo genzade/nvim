@@ -27,7 +27,6 @@ local config = function()
       wk.add({
         {
           mode = { 'n' },
-          { ']', buffer = bufnr, group = 'gitsigns' },
           {
             ']c',
             function()
@@ -42,9 +41,8 @@ local config = function()
               return '<Ignore>'
             end,
             buffer = bufnr,
-            desc = 'Go to next hunk',
+            desc = 'Go to next hunk (GitSigns)',
           },
-          { '[', buffer = bufnr, group = 'gitsigns' },
           {
             '[c',
             function()
@@ -59,7 +57,7 @@ local config = function()
               return '<Ignore>'
             end,
             buffer = bufnr,
-            desc = 'Go to previous hunk',
+            desc = 'Go to previous hunk (GitSigns)',
           },
           { '<Leader>h', buffer = bufnr, group = 'gitsigns' },
           {
