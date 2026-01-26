@@ -27,15 +27,6 @@ local config = function()
     zsh = { 'shellcheck' },
   }
 
-  local severity_map = {
-    ['fatal'] = vim.diagnostic.severity.ERROR,
-    ['error'] = vim.diagnostic.severity.ERROR,
-    ['warning'] = vim.diagnostic.severity.WARN,
-    ['convention'] = vim.diagnostic.severity.HINT,
-    ['refactor'] = vim.diagnostic.severity.INFO,
-    ['info'] = vim.diagnostic.severity.INFO,
-  }
-
   vim.api.nvim_create_autocmd({ 'BufReadPost', 'BufWritePost' }, {
     group = genzade.augroup('auto_lint'),
     callback = function()

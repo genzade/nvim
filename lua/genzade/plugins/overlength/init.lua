@@ -6,11 +6,11 @@ local config = function()
 
   local ol_filetype_config = {
     css = default_length,
+    haml = 120,
     html = 120,
     javascript = default_length,
     lua = default_length,
     markdown = default_length,
-    haml = 120,
     ruby = default_length,
     scss = default_length,
     sh = default_length,

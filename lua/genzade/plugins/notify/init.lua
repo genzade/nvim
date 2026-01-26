@@ -39,13 +39,6 @@ local config = function()
     },
     top_down = false,
   })
-
-  vim.lsp.handlers['window/showMessage'] = function(_, method, params, _)
-    -- map both hint and info to info?
-    local severity = { 'error', 'warn', 'info', 'info' }
-
-    notify(method.message, severity[params.type])
-  end
 end
 
 return {
