@@ -26,6 +26,13 @@ return {
       })
     end, { desc = 'Toggle Lazy[G]it' })
 
+    vim.keymap.set({ 'n', 't' }, '\\d', function()
+      ftm.toggle({
+        name = 'Lazydocker',
+        cmd = 'lazydocker',
+      })
+    end, { desc = 'Toggle Lazy[D]ocker' })
+
     vim.keymap.set('t', '<C-x>', function()
       ftm.close_all()
     end, { desc = 'Close any open terminal' })
