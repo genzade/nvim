@@ -14,7 +14,7 @@ local config = function()
     })[1] ~= nil
   end
 
-  local stylua_config = vim.fn.stdpath('config') .. '/stylua.toml'
+  local stylua_config = vim.fs.joinpath(vim.fn.stdpath('config'), 'stylua.toml')
   -- local fmt_config = vim.fn.stdpath('config') .. '/lua/genzade/plugins/conform/fmt_configs/yamlfmt.yml'
 
   conform.setup({
