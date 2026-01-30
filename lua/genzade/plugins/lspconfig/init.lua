@@ -35,6 +35,7 @@ local config = {
       'dockerls',
       'lua_ls',
       'ruby_lsp',
+      'taplo',
       'terraformls',
       'ts_ls',
       'yamlls',
@@ -182,6 +183,11 @@ return {
                 },
               },
             },
+          }
+
+          local taplo_config = vim.fs.joinpath(vim.fn.stdpath('config'), 'taplo.toml')
+          vim.lsp.config.taplo = {
+            cmd = { 'taplo', 'lsp', '--config', taplo_config, 'stdio' },
           }
 
           vim.lsp.config.yamlls = {
