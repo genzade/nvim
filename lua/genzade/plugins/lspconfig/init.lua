@@ -31,6 +31,7 @@ local config = {
     servers = {
       'bashls',
       'cssls',
+      'clangd',
       'docker_compose_language_service',
       'dockerls',
       'lua_ls',
