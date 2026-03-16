@@ -2,7 +2,7 @@ return {
   'genzade/ftm.nvim',
   dependencies = { 'nvim-telescope/telescope.nvim' },
   opts = {},
-  config = function()
+  init = function()
     local ok, ftm = pcall(require, 'ftm')
     if not ok then
       return
