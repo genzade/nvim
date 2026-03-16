@@ -90,3 +90,20 @@ vim.keymap.set('n', '<leader>N', function()
   vim.api.nvim_open_win(buf, true, opts) -- open buffer in floating window
   vim.api.nvim_buf_set_option(buf, 'filetype', 'notes')
 end, { desc = 'Open [N]otes in floating window' })
+
+vim.keymap.set('n', 'j', function()
+  return vim.v.count == 0 and 'gj' or 'j'
+end, { expr = true, silent = true, desc = 'Move down a line, respecting wrapped lines' })
+
+vim.keymap.set('n', 'k', function()
+  return vim.v.count == 0 and 'gk' or 'k'
+end, { expr = true, silent = true, desc = 'Move up a line, respecting wrapped lines' })
+
+vim.keymap.set('n', '<LEADER>e', function()
+  vim.diagnostic.enable(not vim.diagnostic.is_enabled())
+  vim.notify(
+    'Diagnostics ' .. (vim.diagnostic.is_enabled() and 'enabled' or 'disabled'),
+    vim.log.levels.INFO,
+    { title = 'Diagnostics' }
+  )
+end, { desc = 'Toggle diagnostics' })
