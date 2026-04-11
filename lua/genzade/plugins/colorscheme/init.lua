@@ -34,6 +34,15 @@ local config = function()
   vim.g.sonokai_transparent_background = 1
   vim.g.sonokai_better_performance = 1
 
+  vim.g.sonokai_colors_override = {
+    bg0 = { '#1c2025', 235 },
+    blue = { '#74ADE9', 110 },
+    green = { '#61a670', 107 },
+    yellow = { '#e5c07b', 179 },
+    purple = { '#b57edc', 176 },
+    red = { '#e06c75', 203 },
+  }
+
   vim.cmd.colorscheme('sonokai')
 end
 
