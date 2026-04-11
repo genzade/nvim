@@ -2,7 +2,7 @@ return {
   'echasnovski/mini.surround',
   version = '*',
   event = { 'BufReadPre', 'BufNewFile' },
-  ogpts = {
+  opts = {
     mappings = {
       add = 'gsa', -- Add surrounding in Normal and Visual modes
       delete = 'gsd', -- Delete surrounding
