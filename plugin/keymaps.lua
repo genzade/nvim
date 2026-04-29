@@ -88,7 +88,7 @@ vim.keymap.set('n', '<leader>N', function()
     border = 'rounded',
   }
   vim.api.nvim_open_win(buf, true, opts) -- open buffer in floating window
-  vim.api.nvim_buf_set_option(buf, 'filetype', 'notes')
+  vim.api.nvim_set_option_value('filetype', 'notes.markdown', { buf = buf })
 end, { desc = 'Open [N]otes in floating window' })
 
 vim.keymap.set('n', 'j', function()

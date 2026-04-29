@@ -38,7 +38,7 @@ vim.api.nvim_create_autocmd('FileType', {
     'help',
     'notify',
     'qf',
-    'notes',
+    'notes.markdown',
     'noice',
   },
   callback = function(event)
