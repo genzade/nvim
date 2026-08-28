@@ -36,6 +36,7 @@ local config = {
       'dockerls',
       'lua_ls',
       'ruby_lsp',
+      'sqls',
       'taplo',
       'terraformls',
       'ts_ls',
@@ -44,6 +45,7 @@ local config = {
     formatters = {
       'prettierd',
       'shfmt',
+      'sqruff',
       'standardjs',
       'stylua',
       'terraform',
@@ -51,6 +53,7 @@ local config = {
     linters = {
       'rubocop',
       'shellcheck',
+      'sqlfluff',
       'stylelint',
     },
   },
@@ -96,9 +99,9 @@ return {
 
           vim.api.nvim_create_autocmd('CursorHold', {
             callback = function()
-              vim.diagnostic.open_float(nil, {
-                focus = false,
-              })
+              if vim.diagnostic.is_enabled() then
+                vim.diagnostic.open_float(nil, { focus = false })
+              end
             end,
           })
 

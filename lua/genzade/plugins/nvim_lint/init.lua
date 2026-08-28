@@ -15,6 +15,7 @@ local config = function()
     css = { 'stylelint' },
     sass = { 'stylelint' },
     scss = { 'stylelint' },
+    sql = { 'sqlfluff' },
 
     -- json = { 'jsonlint' },
 
