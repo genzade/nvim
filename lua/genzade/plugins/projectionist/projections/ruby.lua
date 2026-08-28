@@ -230,7 +230,7 @@ M.ruby_on_rails = {
         # loads all the rake tasks
         Rails.application.load_tasks
 
-        RSpec.describe Tasks::{camelcase|capitalize|colons} type: :task do
+        RSpec.describe Tasks::{camelcase|capitalize|colons}, type: :task do
           def rake_task
             Rake::Task['{dirname}:{basename}:run']
           end
@@ -241,7 +241,7 @@ M.ruby_on_rails = {
             :something
           end
 
-          it does something useful do
+          it 'does something useful' do
             expect do
               rake_task.invoke
             end.to change {open} :some_record {close}
