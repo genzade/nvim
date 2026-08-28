@@ -10,6 +10,12 @@ local config = function()
 
   telescope.setup({
     defaults = {
+      mappings = {
+        n = {
+          ['<Down>'] = actions.cycle_history_next,
+          ['<Up>'] = actions.cycle_history_prev,
+        },
+      },
       layout_config = {
         width = 0.95,
         height = 0.95,
@@ -54,7 +60,7 @@ local config = function()
       current_buffer_fuzzy_find = {
         theme = 'dropdown',
         layout_strategy = 'horizontal',
-        previewer = false,
+        previewer = true,
         layout_config = {
           width = 0.95,
           height = 0.95,
